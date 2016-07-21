@@ -1,0 +1,34 @@
+Next Steps
+ ☐ Handle the room error/something went wrong state on client
+ ☐ Combine all code into one repo
+    ☐ Use a game configuration file to determine defaults like speed, ammo etc.
+      ☐ something similar for the map?
+ ☐ Add ability to leave a room and rejoin another one 
+ ☐ Performance???
+   ☐ Server
+     ☐ Elixir - extreme but possible
+     ☐ Separate 'now' deployments
+       ☐ would involve some hefty code rewriting (so basically extreme)
+     ☐ Do nothing - probably ok for now
+   ☐ Client
+     ☐ Go through and eliminate re-renders of static objects/unnecessary stuff
+       ☐ items could be rendered if they are near a player?
+     ☐ WebGL (preferred atm)
+     ☐ JS Game Framework (phaser, construct)
+     ☐ Web Workers
+     ☐ Improve collision detection logic
+ ☐ Setup destruction of rooms on a timer after being empty
+ ☐ Setup game time length
+ ☐ Add some better feedback to the frontend UI
+   ☐ highlight your stats box at the side
+   ✔ highlight your player character in the canvas @done (16-07-21 20:54)
+   ☐ "you died", "you were shot" etc. toasts or notifications
+   ✔ health bars @done (16-07-21 20:47)
+   ☐ sounds
+ ☐ Add Game states to the list in UI
+
+Long term/Maybes
+ ☐ Map Editor
+ ☐ Private games with passwords
+ ☐ Rewrite server code in elixir
+ ☐ Find a way to test

@@ -1,8 +1,6 @@
 config = {
-  entry: "./client/public/src/index.js",
   output: {
-    filename: "bundle.js",
-    path: "./client/public/build"
+    filename: "bundle.js"
   },
   resolve: {
     extensions: ['', '.js', '.jsx']

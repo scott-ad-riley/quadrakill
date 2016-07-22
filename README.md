@@ -4,13 +4,12 @@
 
 * `git clone`
 * `npm i`
-  * You will also need to `npm i -g webpack` if you haven't already
+  * You will also need to `npm i -g gulp` if you don't have it already
 
 ## Running
 
-* This is likely to change when I get a taskrunner setup
-* `node client/static-server.js`
-  * you will need to `sudo` this on osx
-* `webpack -w`
-* `node server/index.js`
-* Browse to http://locahost
+* `gulp`
+  * This will run:
+    * The game server
+    * Webpack asset bundling
+    * Browser-sync for the client (automatically reloads when you change client-side code)

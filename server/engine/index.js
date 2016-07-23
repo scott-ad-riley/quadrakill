@@ -36,6 +36,7 @@ var Engine = function (canvasWidth, canvasHeight) {
     width: canvasWidth
   }
   this.setupEvents()
+  console.log('engine setup!');
 }
 
 Engine.prototype.setupEvents = function () {

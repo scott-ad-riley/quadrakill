@@ -40,9 +40,13 @@ button.homepage {
 .playerBorder{
   font-size: 1.5em;
   background-color: lightgrey;
-  display:block;
-  border-style: double;
-  padding-bottom: 9px;
+  height: 256px;
+  box-sizing: border-box;
+  border: 4.5px double black;
+}
+.activePlayerBox {
+  background-color: orange;
+  height: 100%;
 }
 .playerBorder h3{
   padding:5px;

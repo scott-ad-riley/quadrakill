@@ -46,7 +46,7 @@ const spriteUrls = [
   '/sprites/tiles/steps1.png',
   '/sprites/tiles/ice.png'
 ]
-const soundURLS = [
+const soundUrls = [
     //Items
   '/sounds/itemMachinegun.mp3',
   '/sounds/itemShotgun.mp3',
@@ -63,7 +63,7 @@ const soundURLS = [
 ]
 
 export function setupAssets() {
-  loadAssets(spriteUrls, soundURLS)
+  loadAssets(spriteUrls, soundUrls)
 }
 
 export default function run (ctx, canvasWidth, canvasHeight) {

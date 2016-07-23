@@ -6,7 +6,7 @@ import Game from './Game';
 import Logo from './Logo';
 import GameStartButtons from './GameStartButtons';
 
-import {setupAssets} from '../canvas/main';
+import { setupAssets } from '../canvas/main';
 
 export default class Main extends Component {
   componentDidMount() {

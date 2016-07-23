@@ -6,6 +6,10 @@ export function connect () {
   socket = io('http://localhost:8080'); // change this to your local IP when playing across multiple machines
 }
 
+export function getID() {
+  return socket.id;
+}
+
 export function createSocketListener (eventName, callback) {
   socket.on(eventName, callback);
 }

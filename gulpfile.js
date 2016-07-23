@@ -6,27 +6,25 @@ var webpack = require('webpack-stream');
 gulp.task('server', function() {
     nodemon({
         script: 'server/index.js',
-        watch: ["server/*/**"],
+        watch: ["server/*/**/*.js"],
         ext: 'js'
     }).on('restart', function() {
       gulp.src('server/index.js')
-      console.log('message on restart foo')
   })
 })
-
 
 gulp.task('client-serve', ['webpack'], function () {
     browserSync.init({
         server: ['./client/public/assets', './client/public/build'],
         ghostMode: false,
-        logLevel: "silent",
         open: false,
         reloadOnRestart: true
     });
-    gulp.watch("client/public/src/*.js", ['reload']);
+    gulp.watch("client/public/src/**/*.js", ['reload']);
+    gulp.watch("client/public/src/**/*.jsx", ['reload']);
+    gulp.watch("client/engine/*.js", ['reload']);
 });
 
-// process JS files and return the stream.
 gulp.task('webpack', function () {
   return gulp.src('./client/public/src/index.js')
     .pipe(webpack(require('./webpack.config.js')))

@@ -17,7 +17,11 @@ gulp.task('server', function() {
 
 gulp.task('client-serve', ['webpack'], function () {
     browserSync.init({
-        server: ['./client/public/assets', './client/public/build']
+        server: ['./client/public/assets', './client/public/build'],
+        ghostMode: false,
+        logLevel: "silent",
+        open: false,
+        reloadOnRestart: true
     });
     gulp.watch("client/public/src/*.js", ['reload']);
 });

@@ -8,8 +8,9 @@
 
 ## Running
 
-* `gulp`
+* run `gulp`
   * This will run:
     * The game server
-    * Webpack asset bundling
+    * Webpack js bundling and transpiling
     * Browser-sync for the client (automatically reloads when you change client-side code)
+* open browser to http://localhost:3000

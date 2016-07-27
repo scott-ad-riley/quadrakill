@@ -9,10 +9,10 @@ var MapObjects = function (mapWallData, ObjectConstructors) {
         var newObject = ObjectConstructors[this.rawData[0][i][j]](xPos,yPos);
         this.data.push(newObject);
       }
-      xPos += 32;
+      xPos += 16;
     }
     xPos = 0;
-    yPos+=32;
+    yPos+=16;
   }
   this.collideable = this.data.filter(function (mapObject) {
     return !mapObject.isPassable;

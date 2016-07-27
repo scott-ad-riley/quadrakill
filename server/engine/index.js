@@ -2,15 +2,15 @@
 var EventEmitter = require('events')
 
 //MAP DATA
-var mapTilesData = require('./config/MapTilesData')
-var mapObjectsData = require('./config/MapObjectsData')
+// var mapTilesData = require('./config/MapTilesData')
+// var mapObjectsData = require('./config/MapObjectsData')
 var mapItemsData = require('./config/MapItemsData')
 
 //MODELS
 var Player = require('./models/Player')
 var Bullet = require('./models/Bullet')
-var MapTiles = require('./models/MapTiles')
-var MapObjects = require('./models/MapObjects')
+// var MapTiles = require('./models/MapTiles')
+// var MapObjects = require('./models/MapObjects')
 var MapItems = require('./models/MapItems')
 var Projectiles = require('./models/Projectiles')
 
@@ -55,19 +55,21 @@ Engine.prototype.on = function (eventName, callback) {
 }
 
 Engine.prototype.setupTerrain = function () {
-  return new MapObjects(mapObjectsData, {
-    11: MapObjectFactory.wall,
-    77: MapObjectFactory.dynamic["lava"],
-    88: MapObjectFactory.dynamic["ice"],
-    99: MapObjectFactory.dynamic["mud"]
-  })
+  // return new MapObjects(mapObjectsData, {
+  //   11: MapObjectFactory.wall,
+  //   77: MapObjectFactory.dynamic["lava"],
+  //   88: MapObjectFactory.dynamic["ice"],
+  //   99: MapObjectFactory.dynamic["mud"]
+  // })
 }
 Engine.prototype.setupEntities = function () {
   return new MapItems(mapItemsData, {
     22: MapItemFactory.weapon["assault"],
     33: MapItemFactory.weapon["shotgun"],
     44: MapItemFactory.item["health"],
-    55: MapItemFactory.item["overshield"]
+    55: MapItemFactory.item["overshield"],
+    66: MapItemFactory.item["speedBoost"],
+    77: MapItemFactory.item["cloak"]
   })
 }
 
@@ -139,7 +141,7 @@ Engine.prototype.weaponPickedUp = function (data) {
 
 Engine.prototype.itemPickedUp = function (data) {
   this.entities.items[data.item.id].active = false
-  this.entities.items[data.item.id].restock()
+  this.entities.items[data.item.id].restock(this.entities.items[data.item.id].respawnTime)
   this.players[data.player.id].giveItem(data.item)
   this.eventEmitter.emit('remove item', data.item)
   this.eventEmitter.emit('update players', this.players)

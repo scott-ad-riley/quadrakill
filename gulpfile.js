@@ -22,7 +22,7 @@ gulp.task('client-serve', ['webpack'], function () {
     });
     gulp.watch("client/public/src/**/*.js", ['reload']);
     gulp.watch("client/public/src/**/*.jsx", ['reload']);
-    gulp.watch("client/engine/*.js", ['reload']);
+    gulp.watch("client/engine/**/*.js", ['reload']);
 });
 
 gulp.task('webpack', function () {

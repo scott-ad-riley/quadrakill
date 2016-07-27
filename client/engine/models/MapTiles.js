@@ -16,10 +16,10 @@ MapTiles.prototype = {
     for(let i=0 ; i < this.data[mapNum].length; i+=1){
       for(let j=0 ; j < this.data[mapNum][i].length; j+=1){
         ctx.drawImage(this.tileImages[this.data[mapNum][i][j]],xPos,yPos);
-        xPos += 32;
+        xPos += 16;
       }
       xPos = 0;
-      yPos+=32;
+      yPos+=16;
     }
   }
 }

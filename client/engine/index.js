@@ -191,16 +191,18 @@ var setup = (canvasWidth, canvasHeight, reqAnimFrame, context, setupListenersCal
   map = new MapTiles(mapTilesData, assets.tiles);
   var mapObjectMappings = {
     11: MapObjectFactory.wall,
-    77: MapObjectFactory.dynamic["lava"],
-    88: MapObjectFactory.dynamic["ice"],
-    99: MapObjectFactory.dynamic["mud"]
+    22: MapObjectFactory.dynamic["lava"],
+    33: MapObjectFactory.dynamic["mud"],
+    44: MapObjectFactory.dynamic["ice"],
   }
   mapObjects = new MapObjects(mapObjectsData, mapObjectMappings);
   var mapItemMappings = {
     22: MapItemFactory.weapon["assault"],
     33: MapItemFactory.weapon["shotgun"],
     44: MapItemFactory.item["health"],
-    55: MapItemFactory.item["overshield"]
+    55: MapItemFactory.item["overshield"],
+    66: MapItemFactory.item["speedBoost"],
+    77: MapItemFactory.item["cloak"]
   }
   mapItems = new MapItems(mapItemsData, mapItemMappings);
   bullets = new Projectiles("sprites/tiles/bullet.png");
@@ -213,18 +215,23 @@ var update = function() {
   for (let eachPlayer in players) {
     // players[eachPlayer].calculateWallCollisions(mapObjects.collideable);
     // players[eachPlayer].calculateObjectCollisions(mapObjects.passable);
-    players[eachPlayer].calculateMove({});
-    players[eachPlayer].move();
+    players[eachPlayer].calculateDirection({});
+    players[eachPlayer].moveX();
+    players[eachPlayer].moveY();
     players[eachPlayer].status();
   }
   //UPDATE PLAYER POSITION / PASS IN MOVE-KEYS
-  player.calculateMove(keys.state().movement);
+  player.calculateDirection(keys.state().movement);
+  player.calculateVsp();
+  player.calculateHsp();
   //WALL COLLISIONS
-  player.calculateWallCollisions(mapObjects.collideable);
+  player.calculateWallCollisionsVertical(mapObjects.collideable);
+  player.moveY();
+  player.calculateWallCollisionsHorizontal(mapObjects.collideable);
+  player.moveX();
+
   //OBJECT COLLISIONS
   player.calculateObjectCollisions(mapObjects.passable);
-  //UPDATE PLAYER X/Y
-  player.move();
   //GET SHOT
   var collidedBullet = player.bulletImpact(bullets.items);
   if (collidedBullet) bullets.items.splice(bullets.items.indexOf(collidedBullet), 1);

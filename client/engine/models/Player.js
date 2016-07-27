@@ -8,6 +8,8 @@ var Player = function (x, y, sprites, onTakeDamage, onDeath, isCurrentPlayer) {
   this.id;
   this.x = x;
   this.y = y;
+  this.maxSpeed = 2.4;
+
   this.defaultMaxSpeed = 5.4;
   this.speedModifier = 1;
   this.accelDefault = 0.4;
@@ -22,6 +24,8 @@ var Player = function (x, y, sprites, onTakeDamage, onDeath, isCurrentPlayer) {
   this.isCurrentPlayer = isCurrentPlayer;
 
   // Player State
+  this.dirV = 0;
+  this.dirH = 0;
   this.currentMaxSpeed = this.defaultMaxSpeed;
   this.accel = this.accelDefault;
   this.fric = this.fricDefault;
@@ -29,6 +33,8 @@ var Player = function (x, y, sprites, onTakeDamage, onDeath, isCurrentPlayer) {
   this.vsp = 0;
   this.health = 4;
   this.maxHealth = 4;
+  this.armour = 0;
+  this.maxArmour = 4;
   this.invincible = false;
   this.attackDamage = 1;
   this.weaponNum = 1;
@@ -47,101 +53,152 @@ var Player = function (x, y, sprites, onTakeDamage, onDeath, isCurrentPlayer) {
 }
 
 Player.prototype = {
-  calculateMove: function (keysDown) {
-    if((keysDown.down - keysDown.up )){
-      if(keysDown.up){
-        this.vspIncreaseUp();
+  //WALL COLLISIONS AND MOVEMENT
+  calculateDirection: function (movement) {
+    if((movement.down - movement.up )){
+      if(movement.up){
+        this.dirV = -1;
       }
-      if(keysDown.down){
-        this.vspIncreaseDown();
+      if(movement.down){
+        this.dirV = 1;
       }
     } else {
-        this.vspDecrease();
+        this.dirV = 0;
     }
-
-    if((keysDown.left - keysDown.right)){
-      if(keysDown.left){
-        this.hspIncreaseLeft();
+    if((movement.left - movement.right)){
+      if(movement.left){
+        this.dirH = -1
       }
-      if(keysDown.right){
-        this.hspIncreaseRight();
+      if(movement.right){
+        this.dirH = 1
       }
     } else {
-        this.hspDecrease();
+        this.dirH = 0;
     }
   },
-  calculateWallCollisions: function (wallData) {
-    this.movement.left = true;
-    this.movement.right = true;
-    this.movement.up = true;
-    this.movement.down = true;
+  calculateVsp: function () {
+    if (this.dirV != 0){
+      this.vsp += this.accel*this.speedModifier*this.dirV
+      if (this.vsp < -this.maxSpeed){
+        this.vsp = -this.maxSpeed;
+      }
+      if (this.vsp > this.maxSpeed){
+        this.vsp = this.maxSpeed;
+      }
+    } else {
+      if (this.vsp > 0.2){
+        this.vsp -= this.fric
+      } else if (this.vsp < -0.2){
+        this.vsp += this.fric
+      } else {
+        this.vsp = 0;
+      }
+    }
+  },
+  calculateHsp: function () {
+    if (this.dirH != 0){
+      this.hsp += this.accel*this.speedModifier*this.dirH
+      if (this.hsp < -this.maxSpeed){
+        this.hsp = -this.maxSpeed;
+      }
+      if (this.hsp > this.maxSpeed){
+        this.hsp = this.maxSpeed;
+      }
+    } else {
+      if (this.hsp > 0.4){
+        this.hsp -= this.fric
+      } else if (this.hsp < -0.4){
+        this.hsp += this.fric
+      } else {
+        this.hsp = 0;
+      }
+    }
+  },
+  calculateWallCollisionsVertical: function (wallData) {
+    var playerX = (this.x+16);
+    var playerY = (this.y+16);
     for(let i=0;i<wallData.length;i++){
-      if (intersects(this, wallData[i], {
-          left: 34+this.hsp,
-          right: -25,
-          top: 32+this.vsp,
-          bottom: 32+this.vsp 
-        })) {
-          this.movement.left = false;
+      let wallY = wallData[i].y +8;
+      let wallX = wallData[i].x +8;
+      
+      if(
+        ((playerY + 16 + this.vsp) >= wallY - 6)
+        &&((playerX - 16) <= (wallX + 6))
+        &&((playerX + 16) >= (wallX - 6))
+        &&((playerY - 16) <= (wallY -36))
+      ){
+        if(this.vsp>0){
+          this.vsp = 0;
         }
-      if (intersects(this, wallData[i], {
-          left: -25,
-          right: 34+this.hsp,
-          top: 32+this.vsp,
-          bottom: 32+this.vsp 
-        })) {
-          this.movement.right = false;
-        }
-      if (intersects(this, wallData[i], {
-          left: 25+this.hsp,
-          right: 30+this.hsp,
-          top: 38+this.vsp,
-          bottom: -28 
-        })) {
-          this.movement.up = false;
-        }
-      if (intersects(this, wallData[i], {
-          left: 28+this.hsp,
-          right: 28+this.hsp,
-          top: -28,
-          bottom: 34+this.vsp 
-        })) {
-          this.movement.down = false;
-        }
-    }
-    if (!this.movement.left) {
-      if(this.hsp < 0){
-        this.hsp = 0;
+        console.log("down")
       }
+      if(
+        ((playerY - 16 + this.vsp) <= wallY +6)
+        &&((playerX - 16) <= (wallX + 6))
+        &&((playerX + 16) >= (wallX - 6))
+        &&((playerY + 16) >= (wallY +36))
+      ){
+        if(this.vsp<0){
+          this.vsp = 0;
+        }
+        console.log("up")
+      }     
     }
-    if (!this.movement.right) {
-      if(this.hsp>0){
-        this.hsp = 0;
+  },
+  calculateWallCollisionsHorizontal: function (wallData) {
+    var playerX = (this.x+16);
+    var playerY = (this.y+16);
+    for(let i=0;i<wallData.length;i++){
+      let wallY = wallData[i].y +8;
+      let wallX = wallData[i].x +8;
+      if(
+        ((playerX - 16 + this.hsp) <= wallX +6)
+        &&((playerY - 16) <= (wallY + 6))
+        &&((playerY + 16) >= (wallY - 6))
+        &&((playerX + 16) >= (wallX +36))
+      ){
+        if(this.hsp<0){
+          this.hsp = 0;
+        }
+        console.log("left")
       }
-    }
-    if (!this.movement.up) {
-      if(this.vsp<0){
-        this.vsp = 0;
-      }
-    }
-    if (!this.movement.down) {
-      if(this.vsp>0){
-        this.vsp = 0;
+      if(
+        ((playerX + 16 + this.hsp) >= wallX - 6)
+        &&((playerY - 16) <= (wallY + 6))
+        &&((playerY + 16) >= (wallY - 6))
+        &&((playerX - 16) <= (wallX -36))
+      ){
+        if(this.hsp>0){
+          this.hsp = 0;
+        }
+        console.log("right")
       }
     }
   },
+  moveY: function () {
+    this.y += this.vsp;
+  },
+  moveX: function () {
+    this.x += this.hsp;
+  },
+
+  //OBJECT / ITEM COLLISIONS && PICKUPS
   calculateObjectCollisions: function(objectData){
     var hasCollided = false;
     var tempSpeed;
     var tempFric;
     var tempAccel;
+    var playerX = (this.x+16);
+    var playerY = (this.y+16);
     for(let i=0;i<objectData.length;i++){
-      if (intersects(this, objectData[i], {
-          left: 28,
-          right: 28,
-          top: 28,
-          bottom: 28 
-        })) {
+      let objY = objectData[i].y +8;
+      let objX = objectData[i].x +8;
+      if(
+          ((playerX - 16) <= (objX + 6))
+        &&((playerY - 16) <= (objY + 6))
+        &&((playerY + 16) >= (objY - 6))
+        &&((playerX + 16) >= (objX - 6))
+      ){
           if (objectData[i].damage !== 0) {
             this.takeDamage(objectData[i].damage);
             this.invincible = true;
@@ -164,86 +221,39 @@ Player.prototype = {
       this.accel = this.accelDefault;
     }
   },
-  move: function () {
-    if (this.health > 0) {
-      this.y += this.vsp*this.speedModifier;
-      this.x += this.hsp*this.speedModifier;
-      if(this.x > 766){
-        this.x = -26
-        this.y = 240
-      }
-      if(this.x < -28){
-        this.x = 764
-        this.y = 240
-      }
-    }
-  },
-  vspIncreaseUp: function () {
-    this.vsp -= this.accel
-    if (this.vsp < -this.currentMaxSpeed){
-      this.vsp = -this.currentMaxSpeed;
-    }
-  },
-  vspIncreaseDown: function(){
-    this.vsp += this.accel
-    if (this.vsp > this.currentMaxSpeed){
-      this.vsp = this.currentMaxSpeed;
-    }
-  },
-  vspDecrease: function(){
-    if(this.vsp > 0){
-      this.vsp -= this.fric
-      if(this.vsp < 0.2){
-        this.vsp = 0
-      }
-    }
-    if(this.vsp < 0){
-      this.vsp += this.fric
-      if(this.vsp > -0.2){
-        this.vsp = 0
-      }
-    }
-  },
-  hspIncreaseLeft: function(){
-    this.hsp -= this.accel
-    if (this.hsp < -this.currentMaxSpeed){
-      this.hsp = -this.currentMaxSpeed;
-    }
-  },
-  hspIncreaseRight: function(){
-    this.hsp += this.accel
-    if (this.hsp > this.currentMaxSpeed){
-      this.hsp = this.currentMaxSpeed;
-    }
-  },
-  hspDecrease: function(){
-    if(this.hsp > 0){
-      this.hsp -= this.fric
-      if(this.hsp < 0.02){
-        this.hsp = 0
-      }
-    }
-    if(this.hsp < 0){
-      this.hsp += this.fric
-      if(this.hsp > -0.02){
-        this.hsp = 0
-      }
-    }
-  },
   itemPickUp: function (itemData) {
+    var playerX = (this.x+16);
+    var playerY = (this.y+16);
     for (let i=0; i<itemData.length; i++) {
-      if (
-        this.x <= (itemData[i].x + 26)
-        && itemData[i].x <= (this.x + 26)
-        && this.y <= (itemData[i].y + 26)
-        && itemData[i].y <= (this.y + 26)
-        ) {
+      let objY = itemData[i].y +8;
+      let objX = itemData[i].x +8;
+      if(
+          ((playerX - 16) <= (objX + 10))
+        &&((playerY - 16) <= (objY + 10))
+        &&((playerY + 16) >= (objY - 10))
+        &&((playerX + 16) >= (objX - 10))
+      ){
         if (itemData[i].active === true) {
-          if(this.health < itemData[i].health){
-            this.health = itemData[i].health;
+          if (itemData[i].effect === 1){
+            if(this.health + itemData[i].health >= this.maxHealth){
+              this.health = this.maxHealth;
+            } else {
+              this.health += itemData[i].health;
+            }
+            if(this.armour + itemData[i].armour >= this.maxArmour){
+              this.armour = this.maxArmour;
+            } else {
+              this.armour += itemData[i].armour;
+            }
+          }
+          if (itemData[i].effect === 2){
+            //modify speed
+          }
+          if (itemData[i].effect === 3){
+            //go invisable
           }
           itemData[i].active = false;
-          itemData[i].restock();
+          itemData[i].restock(itemData[i].respawnTime);
           itemData[i].id = i; // this is so that other clients can identify it without items.findwith(x, y)
           return itemData[i]
         }
@@ -274,6 +284,7 @@ Player.prototype = {
     }
     return false; // when you picked up nothing
   },
+  // WEAPONS SYSTEMS
   canFire: function () {
     if (!this.justShot && !this.reloading && this.bulletCount > 0 && this.health > 0 && this.spawned) {
       return true;
@@ -314,22 +325,35 @@ Player.prototype = {
     }
     return collidedBullet;
   },
+  // DAMAGE
   takeDamage: function(damageValue, enemy){
     if (!this.invincible) {
-      if(this.health - damageValue <= 0){
-        this.health = 0;
-        this.playerDeath(enemy);
-        // if (enemy) {
-        //   enemy.killCount += 1;
-        // }
-      } else {
-        this.health -= damageValue;
+      if(this.armour > 0){
+        if(this.armour - damageValue <= 0){
+          this.armour = 0;
+        } else {
+          this.armour -= damageValue;
+        }
         if (this.onTakeDamage) this.onTakeDamage(damageValue);
         this.invincible = true;      
         setTimeout(() => {this.invincible = false}, 2000)
+      } else {
+        if(this.health - damageValue <= 0){
+          this.health = 0;
+          this.playerDeath(enemy);
+          // if (enemy) {
+          //   enemy.killCount += 1;
+          // }
+        } else {
+          this.health -= damageValue;
+          if (this.onTakeDamage) this.onTakeDamage(damageValue);
+          this.invincible = true;      
+          setTimeout(() => {this.invincible = false}, 2000)
+        }
       }
     }
   },
+  //ANIMATIONS
   setOrientation: function (direction) {
     if (direction === "up") {
       this.activeImage = this.imageUp;      
@@ -353,6 +377,7 @@ Player.prototype = {
     this.activeImage = assets[this.rotation];
     this.spritesLoaded = true;
   },
+  // MISC
   playerDeath: function(enemy){
     let enemyString;
     if (!enemy) {
@@ -393,12 +418,20 @@ Player.prototype = {
     this.setPosition({x: x, y: y});
   },
   healthBarWidth: function () {
-    return this.health / this.maxHealth * this.healthBarMaxWidth;
+    if (this.armour > 0){
+      return this.armour / this.maxArmour * this.healthBarMaxWidth;
+    } else {
+      return this.health / this.maxHealth * this.healthBarMaxWidth;
+    }
   },
   healthBarColor: function () {
+    if (this.armour > 0){
+      return "#555555";
+    } else {
     if (this.health <= 1.5) return "#FF0000"; // red
     if (this.health <= 2.5) return "#FFA500"; // orange
     return "#00FF00"; // green
+    }
   },
   render: function (ctx) {
     if (!this.hurt && this.spritesLoaded && this.spawned) {

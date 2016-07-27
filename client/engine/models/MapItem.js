@@ -1,7 +1,10 @@
-var MapItem = function (x, y, health, image) {
+var MapItem = function (x, y, health, armour, effect, respawnTime, image) {
   this.x = x;
   this.y = y;
   this.health = health;
+  this.armour = armour;
+  this.effect = effect;
+  this.respawnTime = respawnTime;
   this.isItem = true;
   this.active = true;
   this.image = image;
@@ -9,8 +12,8 @@ var MapItem = function (x, y, health, image) {
 }
 
 MapItem.prototype = {
-  restock: function () {
-    setTimeout(() => {this.active = true}, 10000);
+  restock: function (respawnTime) {
+    setTimeout(() => {this.active = true}, respawnTime);
   }
 }
 

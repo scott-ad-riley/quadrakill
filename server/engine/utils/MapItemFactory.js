@@ -11,11 +11,18 @@ var MapItemFactory = {
     }
   },
   item: {
+    //x,y,health,armour,effect,respawnTime,image
     health: function (x, y) {
-      return new MapItem(x, y, 4);
+      return new MapItem(x, y, 4, 0, 1, 10000);
     }, 
     overshield: function (x, y) {
-      return new MapItem(x, y, 8);
+      return new MapItem(x, y, 0, 4, 1, 10000);
+    },
+    speedBoost: function (x, y) {
+      return new MapItem(x, y, 0, 0, 2, 10000);
+    },
+    cloak: function (x, y) {
+      return new MapItem(x, y, 0, 0, 3, 10000);
     }
   }
 }

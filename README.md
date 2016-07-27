@@ -11,7 +11,6 @@ Changed the player1Down sprite to a perfect square so I could check more closely
 Noticed that the map data (objects and tiles) in the config folder of the server was outdated and so must not be getting used.
 
 Commented out all the data and the functions that use it in the server/engine/index.js file and the game seems to run fine. 
-
 Guess these can be deleted at some point. 
 
 ##Client side:

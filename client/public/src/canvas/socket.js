@@ -36,6 +36,7 @@ export const socketActions = {
 // these are communications from the canvas to the socket server
 export function setupListeners (engine) {
   engine.incoming.addPlayerID(socket.id);
+  engine.setupKeyListeners();
   // listeners to update the engine, from the server
   socket.on('update players', actions.refreshPlayers)
   socket.on('update players', engine.incoming.updatePlayers)
@@ -70,4 +71,22 @@ export function setupListeners (engine) {
   engine.outgoing.onPlayerDied = (data) => {
     socket.emit('player has died', data)
   }
+}
+
+export function clearListeners (engine) {
+  socket.off('update players', actions.refreshPlayers)
+  socket.off('update players', engine.incoming.updatePlayers)
+  socket.off('update player', engine.incoming.updatePlayer)
+  socket.off('create bullet', engine.incoming.createBullet)
+  socket.off('remove weapon', engine.incoming.weaponGone)
+  socket.off('remove item', engine.incoming.itemGone)
+  socket.off('player take damage', engine.incoming.playerTakeDamage)
+  socket.off('remote player died', engine.incoming.playerDied)
+  engine.outgoing.onPlayerMove = null;
+  engine.outgoing.onPlayerFire = null;
+  engine.outgoing.onWeaponPickup = null;
+  engine.outgoing.onItemPickup = null;
+  engine.outgoing.onTakeDamage = null;
+  engine.outgoing.onPlayerDied = null;
+  engine.clearKeyListeners(); // clears key listeners in the engine
 }

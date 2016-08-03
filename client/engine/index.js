@@ -168,8 +168,6 @@ var addPlayerID = function (playerID) {
 }
 
 keys = new Keys();
-window.addEventListener("keydown", handleKeyDown, false);
-window.addEventListener("keyup", handleKeyUp, false);
 
 var loadAssets = (spriteUrls, soundUrls) => {
   assetsHelpers.loadSprites(spriteUrls, (spritesArray) => {
@@ -325,6 +323,15 @@ module.exports.engine = {
     playerTakeDamage: playerTakeDamage,
     playerDied: playerDied
   },
-  outgoing: outgoingListeners
+  outgoing: outgoingListeners,
+  setupKeyListeners: function () {
+    window.addEventListener("keydown", handleKeyDown, false);
+    window.addEventListener("keyup", handleKeyUp, false);
+  },
+  clearKeyListeners: function () {
+    console.log("cleared listeners!")
+    window.removeEventListener("keydown", handleKeyDown, false);
+    window.removeEventListener("keyup", handleKeyUp, false);
+  }
 }
 module.exports.loadAssets = loadAssets;

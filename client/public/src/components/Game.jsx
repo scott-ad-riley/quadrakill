@@ -2,8 +2,11 @@ import React, {Component} from 'react';
 
 import Logo from './Logo';
 import PlayerBox from './PlayerBox';
+import Button from './Button';
 
-import runGame from '../canvas/main';
+import runGame, { leave } from '../canvas/main';
+
+var foo = require('../canvas/main');
 
 export default class Game extends Component {
   componentDidMount() {
@@ -13,8 +16,9 @@ export default class Game extends Component {
     return <canvas height="512" width="768" ref="canvas"></canvas>
   }
   quitGame() {
-    this.props.disconnectGame(this.props.game.id)
-    this.props.quitGame()
+    leave() // clears engine and socket listeners
+    this.props.disconnectGame(this.props.game.id) // tells the server
+    this.props.quitGame() // tells redux
   }
   keyWithNumber(number) {
     for (let eachPlayer in this.props.gameInfo.players) {
@@ -60,6 +64,7 @@ export default class Game extends Component {
 
           </div>
           <div id='lulz'>
+            <Button className="gameButton" onClick={::this.quitGame}>Leave Game</Button>
             <p>&copy;2016 Scott Riley, Gordon Macintyre. Arts pinched from the Googletron. Sounds from bfxr.net / MetalSlug 3</p>
             <p>#StannisIsTheOneTrueKingofWesteros</p>
           </div>

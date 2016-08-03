@@ -81,7 +81,7 @@ var updatePlayer = function (updatedPlayer) {
     players[updatedPlayer.id].y = updatedPlayer.y;
     players[updatedPlayer.id].hsp = updatedPlayer.hsp;
     players[updatedPlayer.id].vsp = updatedPlayer.vsp;
-  } 
+  }
 }
 
 var createBullet = function(bulletData) {
@@ -216,6 +216,8 @@ var update = function() {
     // players[eachPlayer].calculateWallCollisions(mapObjects.collideable);
     // players[eachPlayer].calculateObjectCollisions(mapObjects.passable);
     players[eachPlayer].calculateDirection({});
+    players[eachPlayer].calculateVsp();
+    players[eachPlayer].calculateHsp();
     players[eachPlayer].moveX();
     players[eachPlayer].moveY();
     players[eachPlayer].status();
@@ -261,7 +263,7 @@ var update = function() {
       var newBullet = player.fireBullet('down');
       socketPlayerFired(newBullet);
       bullets.items.push(newBullet);
-    } 
+    }
     if (keys.state().shooting.left){
       var newBullet = player.fireBullet('left');
       socketPlayerFired(newBullet);
@@ -287,7 +289,7 @@ var update = function() {
 }
 
 
-//DRAW IMAGES - run constantly 
+//DRAW IMAGES - run constantly
 var render = function (ctx) {
   var xPos = 0;
   var yPos = 0;

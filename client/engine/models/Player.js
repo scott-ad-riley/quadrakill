@@ -55,7 +55,7 @@ var Player = function (x, y, sprites, onTakeDamage, onDeath, isCurrentPlayer) {
 Player.prototype = {
   //WALL COLLISIONS AND MOVEMENT
   calculateDirection: function (movement) {
-    if((movement.down - movement.up )){
+    if((movement.down - movement.up)){
       if(movement.up){
         this.dirV = -1;
       }
@@ -77,7 +77,7 @@ Player.prototype = {
     }
   },
   calculateVsp: function () {
-    if (this.dirV != 0){
+    if (this.dirV !== 0){
       this.vsp += this.accel*this.speedModifier*this.dirV
       if (this.vsp < -this.maxSpeed){
         this.vsp = -this.maxSpeed;
@@ -96,7 +96,7 @@ Player.prototype = {
     }
   },
   calculateHsp: function () {
-    if (this.dirH != 0){
+    if (this.dirH !== 0){
       this.hsp += this.accel*this.speedModifier*this.dirH
       if (this.hsp < -this.maxSpeed){
         this.hsp = -this.maxSpeed;
@@ -120,7 +120,7 @@ Player.prototype = {
     for(let i=0;i<wallData.length;i++){
       let wallY = wallData[i].y +8;
       let wallX = wallData[i].x +8;
-      
+
       if(
         ((playerY + 16 + this.vsp) >= wallY - 6)
         &&((playerX - 16) <= (wallX + 6))
@@ -142,7 +142,7 @@ Player.prototype = {
           this.vsp = 0;
         }
         console.log("up")
-      }     
+      }
     }
   },
   calculateWallCollisionsHorizontal: function (wallData) {
@@ -335,7 +335,7 @@ Player.prototype = {
           this.armour -= damageValue;
         }
         if (this.onTakeDamage) this.onTakeDamage(damageValue);
-        this.invincible = true;      
+        this.invincible = true;
         setTimeout(() => {this.invincible = false}, 2000)
       } else {
         if(this.health - damageValue <= 0){
@@ -347,7 +347,7 @@ Player.prototype = {
         } else {
           this.health -= damageValue;
           if (this.onTakeDamage) this.onTakeDamage(damageValue);
-          this.invincible = true;      
+          this.invincible = true;
           setTimeout(() => {this.invincible = false}, 2000)
         }
       }
@@ -356,16 +356,16 @@ Player.prototype = {
   //ANIMATIONS
   setOrientation: function (direction) {
     if (direction === "up") {
-      this.activeImage = this.imageUp;      
+      this.activeImage = this.imageUp;
     }
     if (direction === "down") {
-      this.activeImage = this.imageDown;      
+      this.activeImage = this.imageDown;
     }
     if (direction === "left") {
-      this.activeImage = this.imageLeft;      
+      this.activeImage = this.imageLeft;
     }
     if (direction === "right") {
-      this.activeImage = this.imageRight;      
+      this.activeImage = this.imageRight;
     }
     this.rotation = direction;
   },

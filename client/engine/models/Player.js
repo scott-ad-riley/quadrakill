@@ -8,7 +8,7 @@ var Player = function (x, y, sprites, onTakeDamage, onDeath, isCurrentPlayer) {
   this.id;
   this.x = x;
   this.y = y;
-  this.maxSpeed = 2.4;
+  this.maxSpeedDefault = 2.4;
 
   this.speedModifier = 1;
   this.accelDefault = 0.4;
@@ -75,18 +75,19 @@ Player.prototype = {
     }
   },
   calculateVsp: function () {
+    var maxSpeed = this.maxSpeedDefault*this.speedModifier;
     if (this.dirV !== 0){
-      this.vsp += this.accel*this.speedModifier*this.dirV
-      if (this.vsp < -this.maxSpeed){
-        this.vsp = -this.maxSpeed;
+      this.vsp += this.accel*this.dirV
+      if (this.vsp < -maxSpeed){
+        this.vsp = -maxSpeed;
       }
-      if (this.vsp > this.maxSpeed){
-        this.vsp = this.maxSpeed;
+      if (this.vsp > maxSpeed){
+        this.vsp = maxSpeed;
       }
     } else {
-      if (this.vsp > 0.2){
+      if (this.vsp > 0.5){
         this.vsp -= this.fric
-      } else if (this.vsp < -0.2){
+      } else if (this.vsp < -0.5){
         this.vsp += this.fric
       } else {
         this.vsp = 0;
@@ -94,18 +95,19 @@ Player.prototype = {
     }
   },
   calculateHsp: function () {
+    var maxSpeed = this.maxSpeedDefault*this.speedModifier;
     if (this.dirH !== 0){
-      this.hsp += this.accel*this.speedModifier*this.dirH
-      if (this.hsp < -this.maxSpeed){
-        this.hsp = -this.maxSpeed;
+      this.hsp += this.accel*this.dirH
+      if (this.hsp < -maxSpeed){
+        this.hsp = -maxSpeed;
       }
-      if (this.hsp > this.maxSpeed){
-        this.hsp = this.maxSpeed;
+      if (this.hsp > maxSpeed){
+        this.hsp = maxSpeed;
       }
     } else {
-      if (this.hsp > 0.4){
+      if (this.hsp > 0.5){
         this.hsp -= this.fric
-      } else if (this.hsp < -0.4){
+      } else if (this.hsp < -0.5){
         this.hsp += this.fric
       } else {
         this.hsp = 0;
@@ -171,10 +173,22 @@ Player.prototype = {
   },
   moveY: function (delta) {
     this.y += (this.vsp * delta);
+    if(this.y > 508){
+      this.y = -26
+    }
+    if(this.y < -28){
+      this.y = 508
+    }
   },
   moveX: function (delta) {
     this.x += (this.hsp * delta);
-  },
+    if(this.x > 766){
+      this.x = -26
+    }
+    if(this.x < -28){
+      this.x = 764
+    }
+  },  //value may need adjustment and probably better to pass through actual canvas height/width in case of change in level size
 
   //OBJECT / ITEM COLLISIONS && PICKUPS
   calculateObjectCollisions: function(objectData){
@@ -246,8 +260,8 @@ Player.prototype = {
           if (itemData[i].effect === 3){
             //go invisable
           }
-          itemData[i].active = false;
-          itemData[i].restock(itemData[i].respawnTime);
+          // itemData[i].active = false;
+          // itemData[i].restock(itemData[i].respawnTime);
           itemData[i].id = i; // this is so that other clients can identify it without items.findwith(x, y)
           return itemData[i]
         }
@@ -256,22 +270,23 @@ Player.prototype = {
     return false;
   },
   weaponPickUp: function (weaponData) {
-    if(this.weaponNum == 1){
-      for (let i=0; i<weaponData.length; i++) {
-        if (
-          this.x <= (weaponData[i].x + 26)
-          && weaponData[i].x <= (this.x + 26)
-          && this.y <= (weaponData[i].y + 26)
-          && weaponData[i].y <= (this.y + 26)
-          ) {
-          if (weaponData[i].active === true) {
+    for (let i=0; i<weaponData.length; i++) {
+      if (
+        this.x <= (weaponData[i].x + 26)
+        && weaponData[i].x <= (this.x + 26)
+        && this.y <= (weaponData[i].y + 26)
+        && weaponData[i].y <= (this.y + 26)
+        ) {
+        if (weaponData[i].active === true) {
+          console.log(weaponData[i])
+          if((this.weaponNum === weaponData[i].weaponNum) || (this.weaponNum === 1)) {
             this.weaponNum = weaponData[i].weaponNum;
             this.reloadDelay = weaponData[i].reloadDelay;
             this.bulletCount = weaponData[i].bulletCount;
             this.attackDamage = weaponData[i].damage;
             this.reloading = false;
-            weaponData[i].x = this.x;
-            weaponData[i].y = this.y;
+            // weaponData[i].x = this.x; use this for when dropping weapons becomes a feature
+            // weaponData[i].y = this.y;
             // weaponData[i].active = false;
             // weaponData[i].restock();
             weaponData[i].id = i; // this is so that other clients can identify it without weapons.findwith(x, y)
@@ -284,7 +299,7 @@ Player.prototype = {
   },
   weaponDrop: function(){
     if(this.weaponNum == 2){
-      //
+      // not finished
     }
   },
   // WEAPONS SYSTEMS

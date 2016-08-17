@@ -15,9 +15,9 @@ var MapObjectFactory = {
       return new MapObject(x, y, 0, 0, 0, 2);
     },
     mud: function (x, y) {
-      return new MapObject(x, y, 0.25, 1, 0.25, 0);
+      return new MapObject(x, y, 0.5, 1, 0.25, 0);
     }
-    
+
   }
 }
 module.exports = MapObjectFactory;

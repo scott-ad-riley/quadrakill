@@ -14,10 +14,10 @@ var MapItemFactory = {
   item: {
     //x,y,health,armour,effect,respawnTime,image
     health: function (x, y) {
-      return new MapItem(x, y, 4, 0, 1, 10000, "sprites/items/health.png");
-    }, 
+      return new MapItem(x, y, 4, 0, 1, 4000, "sprites/items/health.png");
+    },
     overshield: function (x, y) {
-      return new MapItem(x, y, 0, 4, 1, 10000, "sprites/items/overshield.png");
+      return new MapItem(x, y, 0, 4, 1, 7000, "sprites/items/overshield.png");
     },
     speedBoost: function (x, y) {
       return new MapItem(x, y, 0, 0, 2, 10000, "sprites/items/overshield.png");

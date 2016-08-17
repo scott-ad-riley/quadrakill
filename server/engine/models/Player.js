@@ -219,8 +219,8 @@ Player.prototype = {
         ) {
         if (itemData[i].active === true) {
           this.giveItem(itemData[i]);
-          itemData[i].active = false;
-          itemData[i].restock();
+          // itemData[i].active = false;
+          // itemData[i].restock();
           itemData[i].id = i; // this is so that other clients can identify it without items.findwith(x, y)
           return itemData[i]
         }
@@ -239,7 +239,7 @@ Player.prototype = {
         if (weaponData[i].active === true) {
           this.giveWeapon(weaponData[i]);
           // weaponData[i].active = false;
-          weaponData[i].restock();
+          // weaponData[i].restock();
           weaponData[i].id = i; // this is so that other clients can identify it without weapons.findwith(x, y)
           return weaponData[i]; // assuming you can't pick up more than 1 weapon at the exact same time
         }

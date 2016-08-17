@@ -302,7 +302,7 @@ var render = function (ctx) {
 var main = function (currentDelta) {
   var now = Date.now();
   var delta = now - startTime;
-  update(currentDelta / 10);
+  update(currentDelta / 20);
   render(ctx);
   startTime = now;
   // repeat

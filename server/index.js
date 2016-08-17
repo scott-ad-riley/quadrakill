@@ -6,7 +6,7 @@ var games = {};
 server.listen(8080);
 
 app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/test_client.html');
+  res.sendFile(__dirname + '/error_page.html');
 });
 
 io.on('connection', function (socket) {

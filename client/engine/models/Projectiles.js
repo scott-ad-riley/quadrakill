@@ -21,9 +21,9 @@ Projectiles.prototype = {
       for(let j=0;j<wallData.length;j++){
       if (intersects(wallData[j], bulletsToCheck[i], {
           left: 8,
-          right: 30,
+          right: 8,
           top: 8,
-          bottom: 30 
+          bottom: 8
         })
       ) {
           hasCollided = true;
@@ -56,7 +56,7 @@ Projectiles.prototype = {
               left: 8,
               right: 30,
               top: 8,
-              bottom: 30 
+              bottom: 30
             })
           ) {
               hasCollided = true;
@@ -66,7 +66,7 @@ Projectiles.prototype = {
       if (!hasCollided) {
         this.items.push(bulletsToCheck[i]);
       };
-        
+
     }
   }
 }

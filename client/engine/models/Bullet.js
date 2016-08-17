@@ -17,6 +17,12 @@ Bullet.prototype = {
     if(this.x < -28){
       this.x = 764
     }
+    if(this.y > 508){
+      this.y = -26
+    }
+    if(this.y < -28){
+      this.y = 508
+    } //values may need adjustment
   },
 }
 module.exports = Bullet;

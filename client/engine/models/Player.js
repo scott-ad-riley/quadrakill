@@ -10,7 +10,6 @@ var Player = function (x, y, sprites, onTakeDamage, onDeath, isCurrentPlayer) {
   this.y = y;
   this.maxSpeed = 2.4;
 
-  this.defaultMaxSpeed = 5.4;
   this.speedModifier = 1;
   this.accelDefault = 0.4;
   this.fricDefault = 0.5;
@@ -26,7 +25,6 @@ var Player = function (x, y, sprites, onTakeDamage, onDeath, isCurrentPlayer) {
   // Player State
   this.dirV = 0;
   this.dirH = 0;
-  this.currentMaxSpeed = this.defaultMaxSpeed;
   this.accel = this.accelDefault;
   this.fric = this.fricDefault;
   this.hsp = 0;
@@ -262,27 +260,36 @@ Player.prototype = {
     return false;
   },
   weaponPickUp: function (weaponData) {
-    for (let i=0; i<weaponData.length; i++) {
-      if (
-        this.x <= (weaponData[i].x + 26)
-        && weaponData[i].x <= (this.x + 26)
-        && this.y <= (weaponData[i].y + 26)
-        && weaponData[i].y <= (this.y + 26)
-        ) {
-        if (weaponData[i].active === true) {
-          this.weaponNum = weaponData[i].weaponNum;
-          this.reloadDelay = weaponData[i].reloadDelay;
-          this.bulletCount = weaponData[i].bulletCount;
-          this.attackDamage = weaponData[i].damage;
-          this.reloading = false;
-          weaponData[i].active = false;
-          weaponData[i].restock();
-          weaponData[i].id = i; // this is so that other clients can identify it without weapons.findwith(x, y)
-          return weaponData[i]; // assuming you can't pick up more than 1 weapon at the exact same time
+    if(this.weaponNum == 1){
+      for (let i=0; i<weaponData.length; i++) {
+        if (
+          this.x <= (weaponData[i].x + 26)
+          && weaponData[i].x <= (this.x + 26)
+          && this.y <= (weaponData[i].y + 26)
+          && weaponData[i].y <= (this.y + 26)
+          ) {
+          if (weaponData[i].active === true) {
+            this.weaponNum = weaponData[i].weaponNum;
+            this.reloadDelay = weaponData[i].reloadDelay;
+            this.bulletCount = weaponData[i].bulletCount;
+            this.attackDamage = weaponData[i].damage;
+            this.reloading = false;
+            weaponData[i].x = this.x;
+            weaponData[i].y = this.y;
+            // weaponData[i].active = false;
+            // weaponData[i].restock();
+            weaponData[i].id = i; // this is so that other clients can identify it without weapons.findwith(x, y)
+            return weaponData[i]; // assuming you can't pick up more than 1 weapon at the exact same time
+          }
         }
       }
     }
     return false; // when you picked up nothing
+  },
+  weaponDrop: function(){
+    if(this.weaponNum == 2){
+      //
+    }
   },
   // WEAPONS SYSTEMS
   canFire: function () {

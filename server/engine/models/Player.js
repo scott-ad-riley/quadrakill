@@ -60,7 +60,7 @@ Player.prototype = {
           left: 34+this.hsp,
           right: -25,
           top: 32+this.vsp,
-          bottom: 32+this.vsp 
+          bottom: 32+this.vsp
         })) {
           canMoveLeft = false;
         }
@@ -68,7 +68,7 @@ Player.prototype = {
           left: -25,
           right: 34+this.hsp,
           top: 32+this.vsp,
-          bottom: 32+this.vsp 
+          bottom: 32+this.vsp
         })) {
           canMoveRight = false;
         }
@@ -76,7 +76,7 @@ Player.prototype = {
           left: 25+this.hsp,
           right: 30+this.hsp,
           top: 38+this.vsp,
-          bottom: -28 
+          bottom: -28
         })) {
           canMoveUp = false;
         }
@@ -84,7 +84,7 @@ Player.prototype = {
           left: 28+this.hsp,
           right: 28+this.hsp,
           top: -28,
-          bottom: 34+this.vsp 
+          bottom: 34+this.vsp
         })) {
           canMoveDown = false;
         }
@@ -131,7 +131,7 @@ Player.prototype = {
           left: 28,
           right: 28,
           top: 28,
-          bottom: 28 
+          bottom: 28
         })) {
           hasCollided = true
           tempSpeed = objectData[i].speedModifier;
@@ -238,7 +238,7 @@ Player.prototype = {
         ) {
         if (weaponData[i].active === true) {
           this.giveWeapon(weaponData[i]);
-          weaponData[i].active = false;
+          // weaponData[i].active = false;
           weaponData[i].restock();
           weaponData[i].id = i; // this is so that other clients can identify it without weapons.findwith(x, y)
           return weaponData[i]; // assuming you can't pick up more than 1 weapon at the exact same time
@@ -274,16 +274,16 @@ Player.prototype = {
     setTimeout(() => {this.justShot = false}, this.reloadDelay);
     this.bulletCount -= 1;
     if (direction === "up") {
-      this.activeImage = this.imageUp;      
+      this.activeImage = this.imageUp;
     }
     if (direction === "down") {
       this.activeImage = this.imageDown;
     }
     if (direction === "left") {
-      this.activeImage = this.imageLeft;      
+      this.activeImage = this.imageLeft;
     }
     if (direction === "right") {
-      this.activeImage = this.imageRight;      
+      this.activeImage = this.imageRight;
     }
     this.rotation = direction;
     return new Bullet(bulletOffsets(direction, this.x, this.y), this, this.attackDamage);

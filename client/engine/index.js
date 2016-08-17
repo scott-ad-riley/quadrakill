@@ -76,12 +76,10 @@ var updatePlayers = function (playersHash) {
 }
 
 var updatePlayer = function (updatedPlayer) {
-  if (updatedPlayer.id !== player.id) {
-    players[updatedPlayer.id].x = updatedPlayer.x;
-    players[updatedPlayer.id].y = updatedPlayer.y;
-    players[updatedPlayer.id].hsp = updatedPlayer.hsp;
-    players[updatedPlayer.id].vsp = updatedPlayer.vsp;
-  }
+  players[updatedPlayer.id].x = updatedPlayer.x;
+  players[updatedPlayer.id].y = updatedPlayer.y;
+  players[updatedPlayer.id].hsp = updatedPlayer.hsp;
+  players[updatedPlayer.id].vsp = updatedPlayer.vsp;
 }
 
 var createBullet = function(bulletData) {
@@ -209,15 +207,15 @@ var setup = (canvasWidth, canvasHeight, reqAnimFrame, context, setupListenersCal
 };
 
 // UPDATE - RUN MULTIPLE TIMES A SECOND!
-var update = function() {
+var update = function(delta) {
   for (let eachPlayer in players) {
     // players[eachPlayer].calculateWallCollisions(mapObjects.collideable);
     // players[eachPlayer].calculateObjectCollisions(mapObjects.passable);
     players[eachPlayer].calculateDirection({});
     players[eachPlayer].calculateVsp();
     players[eachPlayer].calculateHsp();
-    players[eachPlayer].moveX();
-    players[eachPlayer].moveY();
+    players[eachPlayer].moveX(delta);
+    players[eachPlayer].moveY(delta);
     players[eachPlayer].status();
   }
   //UPDATE PLAYER POSITION / PASS IN MOVE-KEYS
@@ -226,9 +224,9 @@ var update = function() {
   player.calculateHsp();
   //WALL COLLISIONS
   player.calculateWallCollisionsVertical(mapObjects.collideable);
-  player.moveY();
+  player.moveY(delta);
   player.calculateWallCollisionsHorizontal(mapObjects.collideable);
-  player.moveX();
+  player.moveX(delta);
 
   //OBJECT COLLISIONS
   player.calculateObjectCollisions(mapObjects.passable);
@@ -301,14 +299,14 @@ var render = function (ctx) {
 };
 
 //GAME LOOP
-var main = function () {
+var main = function (currentDelta) {
   var now = Date.now();
   var delta = now - startTime;
-  update();
+  update(currentDelta / 10);
   render(ctx);
   startTime = now;
   // repeat
-  (raf) ? raf(main) : main();
+  raf(main.bind(null, delta));
 };
 
 module.exports.setup = setup;

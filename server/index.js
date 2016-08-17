@@ -64,4 +64,4 @@ var disconnectSocketFromGames = function (socket) {
   })
 }
 
-console.log('socket server setup and listening on 8080');
+console.log('Socket Server started at http://localhost:8080');

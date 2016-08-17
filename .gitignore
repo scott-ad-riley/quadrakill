@@ -1,5 +1,5 @@
 node_modules
 client/public/build/bundle.js
 client/public/build/bundle.js.map
-npm-debug.log
+npm-debug.log*
 .DS_Store

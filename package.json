@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack -w & nodemon server/index.js & node client/static-server.js",
-    "start": "webpack && node server/index.js & node client/static-server.js"
+    "start": "webpack && node server/index.js & node client/static-server.js",
+    "client-build": "webpack && mkdir surge && cp client/public/build/bundle.js surge/ && cp -r client/public/assets/* surge/ && echo crossfire.placeofthin.gs >> surge/CNAME && surge surge/ && rm -rf surge"
   },
   "repository": {
     "type": "git",

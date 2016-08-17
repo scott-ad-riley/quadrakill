@@ -14,12 +14,7 @@ window.onload = () => {
   connect()
 
   createSocketListener('games refresh', (games) => {
-    console.log("told to refresh games")
     actions.refreshGames(games)
-  })
-
-  createSocketListener('test event', (data) => {
-    console.log('received test event', data)
   })
 
   const render = () => {

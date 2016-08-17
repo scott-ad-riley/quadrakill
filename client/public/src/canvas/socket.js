@@ -3,7 +3,11 @@ import io from 'socket.io-client';
 import actions from '../actions';
 let socket = null;
 export function connect () {
-  socket = io('http://localhost:8080'); // change this to your local IP when playing across multiple machines
+  if (window.hostname === "localhost") {
+    socket = io('http://localhost:3000');
+  } else {
+    socket = io('http://crossfire-server.placeofthin.gs');
+  }
 }
 
 export function getID() {

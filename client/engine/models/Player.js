@@ -128,7 +128,6 @@ Player.prototype = {
         if(this.vsp>0){
           this.vsp = 0;
         }
-        console.log("down")
       }
       if(
         ((playerY - 16 + this.vsp) <= wallY +6)
@@ -139,7 +138,6 @@ Player.prototype = {
         if(this.vsp<0){
           this.vsp = 0;
         }
-        console.log("up")
       }
     }
   },
@@ -158,7 +156,6 @@ Player.prototype = {
         if(this.hsp<0){
           this.hsp = 0;
         }
-        console.log("left")
       }
       if(
         ((playerX + 16 + this.hsp) >= wallX - 6)
@@ -169,15 +166,14 @@ Player.prototype = {
         if(this.hsp>0){
           this.hsp = 0;
         }
-        console.log("right")
       }
     }
   },
-  moveY: function () {
-    this.y += this.vsp;
+  moveY: function (delta) {
+    this.y += (this.vsp * delta);
   },
-  moveX: function () {
-    this.x += this.hsp;
+  moveX: function (delta) {
+    this.x += (this.hsp * delta);
   },
 
   //OBJECT / ITEM COLLISIONS && PICKUPS

@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 const defaultState = {
   games: {},
   page: "home",
@@ -34,7 +36,7 @@ export default function gameReducer(state = defaultState, action) {
       state.currentGame = null;
       return state;
     case 'REFRESH_PLAYERS':
-      state.currentGameInfo.players = action.players
+      state.currentGameInfo.players = _.cloneDeep(action.players)
       return state;
     default:
       return state

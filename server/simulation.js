@@ -79,28 +79,46 @@ Simulation.prototype.playerDeath = function (data) {
 
 Simulation.prototype.setupEvents = function (socket) {
   // this is to setup the server for any events the client might emit
-  socket.on('player moved', (data) => {
-    this.serverEngine.eventEmitter.emit('player moved', data);
-  })
-  socket.on('bullet fired', (data) => {
-    this.serverEngine.eventEmitter.emit('bullet fired', data);
-  })
-  socket.on('weapon picked up', (data) => {
-    this.serverEngine.eventEmitter.emit('weapon picked up', data);
-  })
-  socket.on('item picked up', (data) => {
-    this.serverEngine.eventEmitter.emit('item picked up', data);
-  })
-  socket.on('player take damage', (data) => {
-    this.serverEngine.eventEmitter.emit('player take damage', data);
-  })
-  socket.on('player has died', (data) => {
-    this.serverEngine.eventEmitter.emit('player has died', data);
-  })
+  socket.on('player moved', this.movePlayer.bind(this))
+  socket.on('bullet fired', this.bulletFired.bind(this))
+  socket.on('weapon picked up', this.weaponPickedUp.bind(this))
+  socket.on('item picked up', this.itemPickedUp.bind(this))
+  socket.on('player take damage', this.playerDamaged.bind(this))
+  socket.on('player has died', this.playerDeath.bind(this))
+}
+
+Simulation.prototype.movePlayer = function (data) {
+  this.serverEngine.eventEmitter.emit('player moved', data);
+}
+
+Simulation.prototype.bulletFired = function (data) {
+  this.serverEngine.eventEmitter.emit('bullet fired', data);
+}
+
+Simulation.prototype.weaponPickedUp = function (data) {
+  this.serverEngine.eventEmitter.emit('weapon picked up', data);
+}
+
+Simulation.prototype.itemPickedUp = function (data) {
+  this.serverEngine.eventEmitter.emit('item picked up', data);
+}
+
+Simulation.prototype.playerDamaged = function (data) {
+  this.serverEngine.eventEmitter.emit('player take damage', data);
+}
+
+Simulation.prototype.playerDied = function (data) {
+  this.serverEngine.eventEmitter.emit('player has died', data);
 }
 
 Simulation.prototype.clearEvents = function (socket) {
   // this is to remove the events created in setupEvents()
+  socket.removeListener('player moved', this.movePlayer)
+  socket.removeListener('bullet fired', this.bulletFired)
+  socket.removeListener('weapon picked up', this.weaponPickedUp)
+  socket.removeListener('item picked up', this.itemPickedUp)
+  socket.removeListener('player take damage', this.playerDamaged)
+  socket.removeListener('player has died', this.playerDeath)
 }
 
 

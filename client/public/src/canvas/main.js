@@ -1,6 +1,6 @@
 // import { setup } from 'crossfire-game-engine';
 import { setup, createHandler, engine, loadAssets } from '../../../engine';
-import { setupListeners } from './socket.js';
+import { setupListeners, clearListeners } from './socket.js';
 
 //CROSS-BROWSER SUPPORT
 const requestAnimationFrame = 
@@ -64,6 +64,10 @@ const soundUrls = [
 
 export function setupAssets() {
   loadAssets(spriteUrls, soundUrls)
+}
+
+export function leave() {
+  clearListeners(engine)
 }
 
 export default function run (ctx, canvasWidth, canvasHeight) {

@@ -9,12 +9,8 @@ export default class GameStartButtons extends Component {
   render() {
     return (
         <div>
-          <a onClick={this.props.loadNewGamePage}>
-            <Button className="gameButton" parent={"homepage"}>New Game</Button>
-          </a>
-          <a onClick={this.props.loadJoinGamePage}>
-            <Button className="gameButton" parent={"homepage"}>Join Game</Button>
-          </a>          
+          <Button onClick={this.props.loadNewGamePage}>New Game</Button>
+          <Button onClick={this.props.loadJoinGamePage}>Join Game</Button>
         </div>
       )
   }

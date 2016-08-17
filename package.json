@@ -4,7 +4,9 @@
   "description": "CrossFire is a multiplayer topdown pixel arena shooter",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack -w & nodemon server/index.js & node client/static-server.js",
+    "start": "webpack && node server/index.js & node client/static-server.js"
   },
   "repository": {
     "type": "git",
@@ -32,10 +34,6 @@
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-react": "^6.11.1",
     "babel-preset-stage-0": "^6.5.0",
-    "browser-sync": "^2.13.0",
-    "gulp": "^3.9.1",
-    "gulp-nodemon": "^2.1.0",
-    "webpack": "^1.13.1",
-    "webpack-stream": "^3.2.0"
+    "webpack": "^1.13.1"
   }
 }

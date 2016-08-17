@@ -1,5 +1,7 @@
 config = {
+  entry: "./client/public/src/index.js",
   output: {
+    path: "./client/public/build",
     filename: "bundle.js"
   },
   resolve: {

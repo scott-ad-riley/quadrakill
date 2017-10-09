@@ -34,20 +34,7 @@ Simulation.prototype.setupListeners = function () {
   engine.on('on player death', this.playerDeath.bind(this));
 }
 
-Simulation.prototype.connectPlayer = function (socket) {
-  this.serverEngine.eventEmitter.emit('new player', socket.id);
-  this.setupEvents(socket);
-  this.players[socket.id] = socket;
-}
-
-Simulation.prototype.disconnectPlayer = function (socket, callback) {
-  if (this.players[socket.id]) {
-    this.serverEngine.eventEmitter.emit('remove player', socket.id);
-    delete this.players[socket.id];
-    this.clearEvents(socket);
-    callback();
-  }
-}
+// HANDLERS FOR THE SERVER ENGINE EMITTING EVENTS
 
 Simulation.prototype.updatePlayers = function (playersHash) {
   this.io.sockets.in(this.name).emit('update players', playersHash);
@@ -84,7 +71,24 @@ Simulation.prototype.setupEvents = function (socket) {
   socket.on('weapon picked up', this.weaponPickedUp.bind(this))
   socket.on('item picked up', this.itemPickedUp.bind(this))
   socket.on('player take damage', this.playerDamaged.bind(this))
-  socket.on('player has died', this.playerDeath.bind(this))
+  socket.on('player has died', this.playerDied.bind(this))
+}
+
+// HANDLERS FOR THE SOCKET EMITTING EVENTS
+
+Simulation.prototype.connectPlayer = function (socket) {
+  this.serverEngine.eventEmitter.emit('new player', socket.id);
+  this.setupEvents(socket);
+  this.players[socket.id] = socket;
+}
+
+Simulation.prototype.disconnectPlayer = function (socket, callback) {
+  if (this.players[socket.id]) {
+    this.serverEngine.eventEmitter.emit('remove player', socket.id);
+    delete this.players[socket.id];
+    this.clearEvents(socket);
+    callback();
+  }
 }
 
 Simulation.prototype.movePlayer = function (data) {

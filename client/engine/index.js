@@ -20,7 +20,7 @@ var Keys = require('./utils/keys');
 var assetsHelpers = require('./config/assets');
 var debounce = require('./utils/debounce');
 var getDirection = require('./utils/getDirection');
-var spawnPoints = require('./utils/spawnPoints');
+import spawnPoints from './utils/spawnPoints'
 
 //SOUND FX
 var playSound = require('./utils/playSound.js');

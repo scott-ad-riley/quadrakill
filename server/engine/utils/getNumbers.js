@@ -1,6 +1,6 @@
 module.exports = function (playersHash) {
   let numbers = [];
-  for (eachPlayer in playersHash) {
+  for (let eachPlayer in playersHash) {
     let i = playersHash[eachPlayer];
     numbers.push(i.number);
   }

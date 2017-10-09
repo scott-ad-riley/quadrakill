@@ -4,7 +4,7 @@ var EventEmitter = require('events')
 //MAP DATA
 // var mapTilesData = require('./config/MapTilesData')
 // var mapObjectsData = require('./config/MapObjectsData')
-var mapItemsData = require('./config/MapItemsData')
+var mapItemsData = require('../../data/items.json')
 
 //MODELS
 var Player = require('./models/Player')
@@ -17,7 +17,7 @@ var Projectiles = require('./models/Projectiles')
 //HELPERS/DEFAULTS
 var MapObjectFactory = require('./utils/MapObjectFactory')
 var MapItemFactory = require('./utils/MapItemFactory')
-var spawnPoints = require('./utils/spawnPoints')
+import spawnPoints from './utils/spawnPoints'
 
 var Keys = require('./utils/keys')
 var assets = require('./config/assets')
@@ -154,7 +154,7 @@ Engine.prototype.playerTakeDamage = function (data) {
 }
 
 Engine.prototype.playerDeath = function (data) {
-  let newPosition = spawnPoints(Math.ceil(Math.random() * 4))
+  const newPosition = spawnPoints(Math.ceil(Math.random() * 4))
   this.players[data.player.id].playerDeath(data.enemy, this.players)
   this.players[data.player.id].health = 4
   this.eventEmitter.emit('on player death', {

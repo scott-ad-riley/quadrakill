@@ -443,13 +443,10 @@ Player.prototype = {
     }
   },
   healthBarColor: function () {
-    if (this.armour > 0){
-      return "#555555";
-    } else {
+    if (this.armour > 0) return "#555555"; // grey
     if (this.health <= 1.5) return "#FF0000"; // red
     if (this.health <= 2.5) return "#FFA500"; // orange
     return "#00FF00"; // green
-    }
   },
   render: function (ctx) {
     if (!this.hurt && this.spritesLoaded && this.spawned) {

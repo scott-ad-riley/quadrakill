@@ -1,9 +1,13 @@
-var spawnPoints = {
-  1: {x: 32, y: 24},
-  2: {x: 694, y: 24},
-  3: {x: 32, y: 450},
-  4: {x: 694, y: 450}
+import spawns from './../../../data/spawns'
+import XYFromMapData from '../../../lib/XYFromMapData'
+
+const spawnPoints = {
+  1: XYFromMapData(spawns, 1),
+  2: XYFromMapData(spawns, 2),
+  3: XYFromMapData(spawns, 3),
+  4: XYFromMapData(spawns, 4)
 }
-module.exports = function (playerNumber) {
+
+export default function (playerNumber) {
   return spawnPoints[playerNumber]
 }

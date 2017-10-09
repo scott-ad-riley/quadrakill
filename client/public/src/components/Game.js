@@ -12,15 +12,15 @@ export default class Game extends Component {
   componentDidMount() {
     runGame(this.refs.canvas.getContext('2d'), 768, 512)
   }
-  loadCanvas() {
+  loadCanvas = () => {
     return <canvas height="512" width="768" ref="canvas"></canvas>
   }
-  quitGame() {
+  quitGame = () => {
     leave() // clears engine and socket listeners
     this.props.disconnectGame(this.props.game.id) // tells the server
     this.props.quitGame() // tells redux
   }
-  keyWithNumber(number) {
+  keyWithNumber = (number) => {
     for (let eachPlayer in this.props.gameInfo.players) {
       if (this.props.gameInfo.players[eachPlayer].number === number) return eachPlayer;
     }
@@ -32,39 +32,39 @@ export default class Game extends Component {
         <Logo type={"sub-page"} />
 
           <div id="players13Border">
-            {(::this.keyWithNumber(1)) ?  
+            {(this.keyWithNumber(1)) ?
               <div id="player1" className ="playerBorder">
-                <PlayerBox player={players[::this.keyWithNumber(1)]} />
+                <PlayerBox player={players[this.keyWithNumber(1)]} />
               </div>
               : ""}
-            {(::this.keyWithNumber(3)) ?  
+            {(this.keyWithNumber(3)) ?
                 <div id="player3" className ="playerBorder">
-                  <PlayerBox player={players[::this.keyWithNumber(3)]} />
-                </div> 
+                  <PlayerBox player={players[this.keyWithNumber(3)]} />
+                </div>
                 : ""}
           </div>
 
           <div className="" id="dungeonCanvas">
-            {::this.loadCanvas()}
+            {this.loadCanvas()}
           </div>
 
           <div id="players24Border">
-            
-              {(::this.keyWithNumber(2)) ?  
+
+              {(this.keyWithNumber(2)) ?
                 <div id="player2" className ="playerBorder">
-                  <PlayerBox player={players[::this.keyWithNumber(2)]} />
-                </div> 
+                  <PlayerBox player={players[this.keyWithNumber(2)]} />
+                </div>
                 : ""}
-            
-              {(::this.keyWithNumber(3)) ?
+
+              {(this.keyWithNumber(3)) ?
                 <div id="player4" className ="playerBorder">
-                  <PlayerBox player={players[::this.keyWithNumber(4)]} />
+                  <PlayerBox player={players[this.keyWithNumber(4)]} />
                 </div>
                 : ""}
 
           </div>
           <div id='lulz'>
-            <Button className="gameButton" onClick={::this.quitGame}>Leave Game</Button>
+            <Button className="gameButton" onClick={this.quitGame}>Leave Game</Button>
             <p>&copy;2016 Scott Riley, Gordon Macintyre. Arts pinched from the Googletron. Sounds from bfxr.net / MetalSlug 3</p>
             <p>#StannisIsTheOneTrueKingofWesteros</p>
           </div>

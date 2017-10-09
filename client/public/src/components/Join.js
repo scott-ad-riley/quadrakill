@@ -4,7 +4,7 @@ import Logo from './Logo';
 import JoinGame from './JoinGame';
 
 export default class JoinList extends Component {
-  renderGame(key, index) {
+  renderGame = (key, index) => {
     return <JoinGame key={index} onClick={this.joinGame(key)}>{key}</JoinGame>
   }
   joinGame(gameName) {
@@ -23,7 +23,7 @@ export default class JoinList extends Component {
           <h3>Open Games</h3>
           <ul className="gameList">
             {
-              Object.keys(this.props.games).map(::this.renderGame)
+              Object.keys(this.props.games).map(this.renderGame)
             }
           </ul>
         </div>

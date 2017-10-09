@@ -9,12 +9,12 @@ export default class Create extends Component {
       gameName: ''
     }
   }
-  onChangeName(e) {
+  onChangeName = (e) => {
     this.setState({
       gameName: e.target.value
     })
   }
-  onSubmit(e) {
+  onSubmit = (e) => {
     e.preventDefault();
     this.props.createGame(this.state.gameName);
     this.props.loadJoinGamePage();
@@ -33,8 +33,8 @@ export default class Create extends Component {
         </div>
         <div className="newGameForm">
           <h3>Enter New Game Name</h3>
-          <form onSubmit={::this.onSubmit}>
-            <input ref="gameName" type="text" value={this.state.gameName} onChange={::this.onChangeName} />
+          <form onSubmit={this.onSubmit}>
+            <input ref="gameName" type="text" value={this.state.gameName} onChange={this.onChangeName} />
           </form>
         </div>
         <div className='homepageButtonPleaseBehaveNowKThxBye'>

@@ -1,25 +1,15 @@
-config = {
-  entry: "./client/public/src/index.js",
+const Path = require('path')
+
+module.exports = {
+  entry: Path.join(__dirname + "/client/public/src/index.js"),
   output: {
-    path: "./client/public/build",
+    path: Path.join(__dirname + "/client/public/build"),
     filename: "bundle.js"
   },
-  resolve: {
-    extensions: ['', '.js', '.jsx']
-  },
   module:{
-    loaders: [
-      {
-        test: /\.jsx?$/,
-        exclude: /(node_modules|bower_components)/,
-        loader: 'babel', // 'babel-loader' is also a legal name to reference
-        query: {
-          presets: ['react', 'es2015', 'stage-0']
-        }
-      }
+    rules: [
+      { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" }
     ]
   },
   devtool: 'source-map'
 }
-
-module.exports = config;

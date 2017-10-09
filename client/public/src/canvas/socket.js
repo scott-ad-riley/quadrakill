@@ -3,8 +3,8 @@ import io from 'socket.io-client';
 import actions from '../actions';
 let socket = null;
 export function connect () {
-  if (window.hostname === "localhost") {
-    socket = io('http://localhost:3000');
+  if (window.location.hostname === "localhost") {
+    socket = io('http://localhost:8080');
   } else {
     socket = io('http://crossfire-server.placeofthin.gs');
   }

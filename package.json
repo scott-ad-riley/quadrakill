@@ -4,9 +4,12 @@
   "description": "CrossFire is a multiplayer topdown pixel arena shooter",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack -w & nodemon server/index.js & node client/static-server.js",
-    "start": "webpack && node server/index.js & node client/static-server.js",
+    "dev": "run-p -rns webpack-watch node-server node-client",
+    "webpack-watch": "webpack -w",
+    "node-server": "node server/index.js",
+    "node-server-dev": "nodemon server/index.js",
+    "node-client": "node client/static-server.js",
+    "start": "webpack && run-p -r node-server node-client",
     "client-build": "webpack && mkdir surge && cp client/public/build/bundle.js surge/ && cp -r client/public/assets/* surge/ && echo crossfire.placeofthin.gs >> surge/CNAME && surge surge/ && rm -rf surge"
   },
   "repository": {
@@ -35,6 +38,7 @@
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-react": "^6.11.1",
     "babel-preset-stage-0": "^6.5.0",
+    "npm-run-all": "^4.1.1",
     "webpack": "^1.13.1"
   }
 }

@@ -1,8 +1,14 @@
-import React, {Component} from 'react';
+import React, {Component} from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
-import Logo from './Logo';
+import Logo from './Logo'
+import loadJoinGamePage from '../actions/loadJoinGamePage'
+import loadHomePage from '../actions/loadHomePage'
 
-export default class Create extends Component {
+import { createGame } from '../canvas/socket'
+
+class Create extends Component {
   constructor() {
     super();
     this.state = {
@@ -16,9 +22,9 @@ export default class Create extends Component {
   }
   onSubmit = (e) => {
     e.preventDefault();
-    this.props.createGame(this.state.gameName);
+    createGame(this.context.socket, this.state.gameName)
     this.props.loadJoinGamePage();
-    this.setState({
+    this.setState({ // TODO: this feels redundant?
       gameName: ''
     })
   }
@@ -44,3 +50,18 @@ export default class Create extends Component {
       )
   }
 }
+
+Create.contextTypes = {
+  socket: PropTypes.object
+}
+
+const mapStateToProps = () => ({})
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loadJoinGamePage: () => dispatch(loadJoinGamePage),
+    loadHomePage: () => dispatch(loadHomePage)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Create)

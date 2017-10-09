@@ -1,9 +1,6 @@
-import store from '../state-handling.js';
-
-export default function loadHomePage (games) {
-  store.dispatch({
+export default function refreshGames (games) {
+  return {
     type: 'REFRESH_GAMES',
     games: games
-  })
-  
+  }
 }

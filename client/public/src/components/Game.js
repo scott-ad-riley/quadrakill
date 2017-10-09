@@ -1,14 +1,18 @@
-import React, {Component} from 'react';
+import React, {Component} from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
-import Logo from './Logo';
-import PlayerBox from './PlayerBox';
-import Button from './Button';
+import Logo from './Logo'
+import PlayerBox from './PlayerBox'
+import Button from './Button'
 
-import runGame, { leave } from '../canvas/main';
+import runGame, { leave } from '../canvas/main'
+import quitGame from '../actions/quitGame'
+import disconnectGame from '../canvas/socket'
 
-var foo = require('../canvas/main');
+var foo = require('../canvas/main')
 
-export default class Game extends Component {
+class Game extends Component {
   componentDidMount() {
     runGame(this.refs.canvas.getContext('2d'), 768, 512)
   }
@@ -17,7 +21,7 @@ export default class Game extends Component {
   }
   quitGame = () => {
     leave() // clears engine and socket listeners
-    this.props.disconnectGame(this.props.game.id) // tells the server
+    disconnectGame(this.context.socket, this.props.game.id) // tells the server
     this.props.quitGame() // tells redux
   }
   keyWithNumber = (number) => {
@@ -73,9 +77,22 @@ export default class Game extends Component {
   }
 }
 
+Game.contextTypes = {
+  socket: PropTypes.object
+}
 
-// <button id="quitButton" onClick={::this.quitGame}>Quit Game</button> //stop getting in the way!!
+const mapStateToProps = ({ currentGame, currentGameInfo }) => {
+  return {
+    gameInfo: currentGameInfo,
+    game: currentGame,
+    actions: {}
+  }
+}
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    quitGame: () => dispatch(quitGame)
+  }
+}
 
-
-
+export default connect(mapStateToProps, mapDispatchToProps)(Game)

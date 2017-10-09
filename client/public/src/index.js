@@ -1,35 +1,36 @@
 import React from 'react';
-import { render as reactRender } from 'react-dom';
+import { render } from 'react-dom';
 import { gid } from 'short-dom';
+import { createStore } from 'redux'
+import { Provider } from 'react-redux';
 
-import store from './state-handling.js';
-import { Main, Create, Join, Options } from './components.js';
+import { Main } from './components.js';
+import gameReducer from './game-reducer.js'
 
-import actions from './actions.js';
+import refreshGames from './actions/refreshGames'
+import refreshPlayers from './actions/refreshPlayers'
 
-import { connect, socketActions, createSocketListener} from './canvas/socket.js';
+import { connect } from './canvas/socket.js';
 
 window.onload = () => {
 
-  connect()
+  const socket = connect()
 
-  createSocketListener('games refresh', (games) => {
-    actions.refreshGames(games)
+  const store = createStore(gameReducer)
+
+  socket.on('games refresh', (games) => {
+    store.dispatch(refreshGames(games))
   })
 
-  const render = () => {
-    reactRender(
-        <Main
-          state={store.getState()}
-          actions={actions}
-          socket={socketActions}
-          createSocketListener={createSocketListener}
-          />,
-        gid('app')
-      )
-  };
+  socket.on('update players', (players) => {
+    store.dispatch(refreshPlayers(players))
+  })
 
-  render();
-  store.subscribe(render);
+  render(
+    <Provider store={store}>
+      <Main socket={socket} />
+    </Provider>,
+    gid('app')
+  )
 }
 

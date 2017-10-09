@@ -1,10 +1,6 @@
-import store from '../state-handling.js';
-
-import _ from 'lodash';
-
 export default function refreshPlayers (players) {
-  store.dispatch({
+  return {
     type: 'REFRESH_PLAYERS',
     players: players
-  })  
+  }
 }

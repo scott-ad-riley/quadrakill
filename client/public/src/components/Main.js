@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types';
 
 import Create from './Create';
 import Join from './Join';
@@ -8,39 +10,44 @@ import GameStartButtons from './GameStartButtons';
 
 import { setupAssets } from '../canvas/main';
 
-export default class Main extends Component {
+class Main extends Component {
   componentDidMount() {
     setupAssets()
   }
+  getChildContext() {
+    return { socket: this.props.socket }
+  }
   render() {
-    switch (this.props.state.page) {
+    switch (this.props.currentPage) {
       case 'new_game':
-        return <Create 
-                  loadJoinGamePage={this.props.actions.loadJoinGamePage}
-                  loadHomePage={this.props.actions.loadHomePage}
-                  createGame={this.props.socket.createGame} />
+        return <Create />
       case 'join_game':
-        return <Join
-                  games={this.props.state.games}
-                  joinGame={this.props.socket.joinGame}
-                  loadGamePage={this.props.actions.joinGame}
-                  loadHomePage={this.props.actions.loadHomePage} />
+        return <Join />
       case 'game':
-        return <Game
-                  disconnectGame={this.props.socket.disconnectGame}
-                  quitGame={this.props.actions.quitGame}
-                  gameInfo={this.props.state.currentGameInfo}
-                  game={this.props.state.currentGame} />
+        return <Game />
       case 'home':
       default:
         return (
           <div>
             <Logo type={"home-heading"} />
-            <GameStartButtons
-              loadNewGamePage={this.props.actions.loadNewGamePage}
-              loadJoinGamePage={this.props.actions.loadJoinGamePage} />
+            <GameStartButtons />
           </div>
         )
     }
   }
 }
+
+Main.childContextTypes = {
+  socket: PropTypes.object
+}
+
+const mapStateToProps = ({ page, currentGame, currentGameInfo }) => {
+  return {
+    currentPage: page,
+    currentGameInfo: currentGameInfo,
+    currentGame: currentGame,
+    actions: {}
+  }
+}
+
+export default connect(mapStateToProps)(Main)

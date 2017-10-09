@@ -1,12 +1,14 @@
 import io from 'socket.io-client';
 
-import actions from '../actions';
+const actions = {} // going soon
 let socket = null;
 export function connect () {
   if (window.location.hostname === "localhost") {
     socket = io('http://localhost:8080');
+    return socket
   } else {
     socket = io('http://crossfire-server.placeofthin.gs');
+    return socket
   }
 }
 
@@ -14,27 +16,17 @@ export function getID() {
   return socket.id;
 }
 
-export function createSocketListener (eventName, callback) {
-  socket.on(eventName, callback);
+// these are communications from react to the socket server
+export const createGame = (_socket, gameName) => {
+  _socket.emit('create game', gameName)
 }
 
-// probably want a removeSocketListener too
+export const joinGame = (_socket, gameId) => {
+  _socket.emit('join game', gameId)
+}
 
-// these are communications from react to the socket server
-export const socketActions = {
-  createGame: (gameName) => {
-    socket.emit('create game', gameName);
-  },
-  joinGame: (gameId) => {
-    socket.emit('join game', gameId);
-  },
-  disconnectGame: (gameId) => {
-    socket.emit('quit game', gameId);
-  },
-  // probably not needed... kinda dangerous
-  gameEvent: (eventName, data) => {
-    socket.emit(eventName, data)
-  }
+export const disconnectGame = (_socket, gameId) => {
+  _socket.emit('quit game', gameId);
 }
 
 // these are communications from the canvas to the socket server
@@ -42,7 +34,6 @@ export function setupListeners (engine) {
   engine.incoming.addPlayerID(socket.id);
   engine.setupKeyListeners();
   // listeners to update the engine, from the server
-  socket.on('update players', actions.refreshPlayers)
   socket.on('update players', engine.incoming.updatePlayers)
   socket.on('update player', engine.incoming.updatePlayer)
   socket.on('create bullet', engine.incoming.createBullet)

@@ -1,16 +1,22 @@
-import React, {Component} from 'react';
+import React, {Component} from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
-import Logo from './Logo';
-import JoinGame from './JoinGame';
+import Logo from './Logo'
+import JoinGame from './JoinGame'
 
-export default class JoinList extends Component {
+import joinGame from '../actions/joinGame'
+import loadHomePage from '../actions/loadHomePage'
+import { joinGame as joinSocketGame } from '../canvas/socket'
+
+class Join extends Component {
   renderGame = (key, index) => {
     return <JoinGame key={index} onClick={this.joinGame(key)}>{key}</JoinGame>
   }
   joinGame(gameName) {
     return () => {
       this.props.joinGame(gameName)
-      this.props.loadGamePage(this.props.games[gameName])
+      joinSocketGame(this.context.socket, gameName)
     }
   }
   render() {
@@ -34,4 +40,22 @@ export default class JoinList extends Component {
       )
   }
 }
-              // this.props.games.map(::this.renderGame)
+
+Join.contextTypes = {
+  socket: PropTypes.object
+}
+
+const mapStateToProps = ({ games }) => {
+  return {
+    games: games
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    joinGame: (gameName) => dispatch(joinGame(gameName)),
+    loadHomePage: () => dispatch(loadHomePage)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Join)

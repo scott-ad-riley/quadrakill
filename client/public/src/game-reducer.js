@@ -12,32 +12,17 @@ const defaultState = {
 
 export default function gameReducer(state = defaultState, action) {
   switch (action.type) {
-    case 'ADD_GAME':
-      return state.concat([action.room])
-    case 'REMOVE_GAME':
-      const index = state.games.indexOf(action.room);
-      state.games = [
-          ...state.games.slice(0, index),
-          ...state.games.slice(index + 1)
-      ]
-      return state
     case 'REFRESH_GAMES':
-      state.games = action.games;
-      return state;
+      return {...state, games: action.games};
     case 'NEW_PAGE':
-      state.page = action.page;
-      return state;
+      return {...state, page: action.page};
     case 'JOIN_GAME':
-      state.page = 'game';
-      state.currentGame = action.game;
-      return state;
+      return {...state, page: 'game', currentGame: action.game};
     case 'QUIT_GAME':
-      state.page = 'join_game';
-      state.currentGame = null;
-      return state;
+      return {...state, page: 'join_game', currentGame: null};
     case 'REFRESH_PLAYERS':
-      state.currentGameInfo.players = _.cloneDeep(action.players)
-      return state;
+      const newGameInfo = {...state.currentGameInfo, players: _.cloneDeep(action.players)}
+      return {...state, currentGameInfo: newGameInfo};
     default:
       return state
   }

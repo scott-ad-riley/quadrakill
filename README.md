@@ -1,5 +1,9 @@
 # CrossFire
 
+## Deployment
+
+* Auto deploys will be setup to work via codeship and gitlab.
+
 ## Setup
 
 * `git clone` this repo

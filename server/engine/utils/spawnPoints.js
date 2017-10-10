@@ -1,5 +1,5 @@
 import spawns from './../../../data/spawns'
-import XYFromMapData from '../../../server/XYFromMapData'
+import XYFromMapData from '../../XYFromMapData'
 
 const spawnPoints = {
   1: XYFromMapData(spawns, 1),

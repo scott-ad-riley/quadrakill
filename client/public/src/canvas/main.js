@@ -3,10 +3,10 @@ import { setup, createHandler, engine, loadAssets } from '../../../engine';
 import { setupListeners, clearListeners } from './socket.js';
 
 //CROSS-BROWSER SUPPORT
-const requestAnimationFrame = 
-  window.requestAnimationFrame || 
-  window.webkitRequestAnimationFrame || 
-  window.msRequestAnimationFrame || 
+const requestAnimationFrame =
+  window.requestAnimationFrame ||
+  window.webkitRequestAnimationFrame ||
+  window.msRequestAnimationFrame ||
   window.mozRequestAnimationFrame;
 
 const spriteUrls = [
@@ -48,7 +48,7 @@ const spriteUrls = [
 ]
 const soundUrls = [
     //Items
-  '/sounds/itemMachinegun.mp3',
+  '/sounds/itemMachineGun.mp3',
   '/sounds/itemShotgun.mp3',
   '/sounds/itemHealth.wav',
   '/sounds/itemOvershield.wav',
@@ -71,5 +71,5 @@ export function leave() {
 }
 
 export default function run (ctx, canvasWidth, canvasHeight) {
-  setup(canvasWidth, canvasHeight, requestAnimationFrame, ctx, setupListeners.bind(null, engine)); 
+  setup(canvasWidth, canvasHeight, requestAnimationFrame, ctx, setupListeners.bind(null, engine));
 }

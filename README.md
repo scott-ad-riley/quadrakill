@@ -3,6 +3,7 @@
 ## Deployment
 
 * Auto deploys will be setup to work via codeship and gitlab.
+* trying to get them to work
 
 ## Setup
 

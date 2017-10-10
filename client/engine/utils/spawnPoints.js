@@ -1,5 +1,5 @@
 import spawns from '../../../data/spawns'
-import XYFromMapData from '../../../lib/XYFromMapData'
+import XYFromMapData from '../../../server/XYFromMapData'
 
 export default {
   1: XYFromMapData(spawns, 1),

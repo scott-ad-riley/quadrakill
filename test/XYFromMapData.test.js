@@ -1,4 +1,4 @@
-import XYFromMapData from '../lib/XYFromMapData'
+import XYFromMapData from '../server/XYFromMapData'
 import mapData from './support/mapData'
 
 describe('XYFromMapData', function () {

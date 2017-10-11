@@ -1,9 +1,8 @@
 # CrossFire
 
-## Deployment
+## Deployment
 
-* Auto deploys will be setup to work via codeship and gitlab.
-* trying to get them to work
+* Auto deploys are almost setup via codeship and gitlab
 
 ## Setup
 

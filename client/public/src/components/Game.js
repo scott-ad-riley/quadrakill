@@ -8,7 +8,7 @@ import Button from './Button'
 
 import runGame, { leave } from '../canvas/main'
 import quitGame from '../actions/quitGame'
-import disconnectGame from '../canvas/socket'
+import { disconnectGame } from '../canvas/socket'
 
 var foo = require('../canvas/main')
 

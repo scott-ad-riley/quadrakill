@@ -1,6 +1,6 @@
 // import { setup } from 'crossfire-game-engine';
-import { setup, createHandler, engine, loadAssets } from '../../../engine';
-import { setupListeners, clearListeners } from './socket.js';
+import { setup, createHandler, engine, loadAssets } from '../../../engine/index.js'
+import { setupListeners, clearListeners } from './socket.js'
 
 //CROSS-BROWSER SUPPORT
 const requestAnimationFrame =
@@ -71,5 +71,5 @@ export function leave() {
 }
 
 export default function run (ctx, canvasWidth, canvasHeight) {
-  setup(canvasWidth, canvasHeight, requestAnimationFrame, ctx, setupListeners.bind(null, engine));
+  setup(canvasWidth, canvasHeight, requestAnimationFrame, ctx, setupListeners(engine));
 }

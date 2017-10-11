@@ -27,7 +27,6 @@ var getNumbers = require('./utils/getNumbers')
 var Engine = function (canvasWidth, canvasHeight) {
   this.players = {}
   this.bullets = []
-  this.terrain = this.setupTerrain()
   this.entities = this.setupEntities()
   this.bullets = new Projectiles()
   this.eventEmitter = new EventEmitter()
@@ -54,14 +53,6 @@ Engine.prototype.on = function (eventName, callback) {
   this.eventEmitter.on(eventName, callback)
 }
 
-Engine.prototype.setupTerrain = function () {
-  // return new MapObjects(mapObjectsData, {
-  //   11: MapObjectFactory.wall,
-  //   77: MapObjectFactory.dynamic["lava"],
-  //   88: MapObjectFactory.dynamic["ice"],
-  //   99: MapObjectFactory.dynamic["mud"]
-  // })
-}
 Engine.prototype.setupEntities = function () {
   return new MapItems(mapItemsData, {
     22: MapItemFactory.weapon["assault"],
@@ -74,6 +65,7 @@ Engine.prototype.setupEntities = function () {
 }
 
 Engine.prototype.addNewPlayer = function (socketID) {
+  console.log('adding a new player socketID:', socketID)
   let currentNumbers = getNumbers(this.players)
   let playerNumber
   for (let i = 1; i <= 4; i++) {
@@ -86,6 +78,7 @@ Engine.prototype.addNewPlayer = function (socketID) {
     let spawn = spawnPoints(playerNumber)
     this.players[socketID] = new Player(spawn.x, spawn.y, socketID, playerNumber)
     this.eventEmitter.emit('update players', this.players)
+    console.log("new player spawned:", this.players[socketID])
   }
 }
 

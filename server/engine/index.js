@@ -65,7 +65,6 @@ Engine.prototype.setupEntities = function () {
 }
 
 Engine.prototype.addNewPlayer = function (socketID) {
-  console.log('adding a new player socketID:', socketID)
   let currentNumbers = getNumbers(this.players)
   let playerNumber
   for (let i = 1; i <= 4; i++) {
@@ -78,7 +77,6 @@ Engine.prototype.addNewPlayer = function (socketID) {
     let spawn = spawnPoints(playerNumber)
     this.players[socketID] = new Player(spawn.x, spawn.y, socketID, playerNumber)
     this.eventEmitter.emit('update players', this.players)
-    console.log("new player spawned:", this.players[socketID])
   }
 }
 

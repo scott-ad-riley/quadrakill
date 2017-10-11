@@ -162,7 +162,7 @@ var playerDied = function (data) {
 }
 
 var addPlayerID = function (playerID) {
-  player.id = "/#" + playerID;
+  player.id = playerID;
 }
 
 keys = new Keys();

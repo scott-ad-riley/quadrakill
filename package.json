@@ -10,7 +10,8 @@
     "node-server-dev": "nodemon server/index.js --exec babel-node",
     "node-client": "node client/static-server.js",
     "start": "webpack && run-p -r node-server node-client",
-    "client-build": "webpack && mkdir surge && cp client/public/build/bundle.js surge/ && cp -r client/public/assets/* surge/ && echo crossfire.placeofthin.gs >> surge/CNAME && surge surge/ && rm -rf surge"
+    "client-build": "webpack && mkdir surge && cp client/public/build/bundle.js surge/ && cp -r client/public/assets/* surge/",
+    "client-deploy": "npm run client-build && echo http://crossfire.placeofthin.gs >> surge/CNAME && surge surge/ && rm -rf surge"
   },
   "repository": {
     "type": "git",

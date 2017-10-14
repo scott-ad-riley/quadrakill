@@ -1,5 +1,7 @@
 # CrossFire
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/scott-ad-riley/crossfire.svg)](https://greenkeeper.io/)
+
 ## Deployment
 
 * Auto deploys are almost setup via codeship and gitlab

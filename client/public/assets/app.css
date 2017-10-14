@@ -5,6 +5,7 @@ body {
   background-color: black;
   background-image: url("https://images7.alphacoders.com/366/366645.jpg")
 }
+
 .home-heading {
   font-weight: 400;
   font-size: 8em;
@@ -13,8 +14,6 @@ body {
 
 #app {
   display:inline-block;
-/*  justify-content: center;
-  align-items: center;*/
 }
 
 .center {
@@ -41,6 +40,7 @@ button.gameButton {
 .row{
   text-align: center;
 }
+
 .playerBorder{
   font-size: 1.5em;
   background-color: lightgrey;
@@ -48,35 +48,42 @@ button.gameButton {
   box-sizing: border-box;
   border: 4.5px double black;
 }
+
 .activePlayerBox {
   background-color: orange;
   height: 100%;
 }
+
 .playerBorder h3{
   padding:5px;
 }
+
 .playerBorder p{
   padding:5px;
 }
+
 #players13Border{
   display:inline-block;
   vertical-align: top;
   width: 140px;
 }
-    #player1{
-      vertical-align: top;
-      border-top-left-radius: 5px;
-    }
-    #player3{
-      padding-top: 0px;
-      margin-top: -1px;
-      vertical-align: bottom;
-      border-bottom-left-radius: 5px;
-    }
-    #players13Border :hover{
-      background-color: darkgrey;
-      color:white;
-    }
+
+#player1{
+  vertical-align: top;
+  border-top-left-radius: 5px;
+}
+
+#player3{
+  padding-top: 0px;
+  margin-top: -1px;
+  vertical-align: bottom;
+  border-bottom-left-radius: 5px;
+}
+
+#players13Border :hover{
+  background-color: darkgrey;
+  color:white;
+}
 
 #dungeonCanvas{
   display:inline-block;
@@ -88,78 +95,76 @@ button.gameButton {
   width: 140px;
   height: 512
 }
-    #player2{
-      height: 100%;
-      min-height: 50%;
-      vertical-align: top;
-      border-top-right-radius: 5px;
-    }
-    #player4{
-      padding-top: 0px;
-      margin-top: -1px;
-      vertical-align: bottom;
-      border-bottom-right-radius: 5px;
-    }
-    #players24Border :hover{
-      background-color: darkgrey;
-      color:white;
-    }
 
+#player2{
+  height: 100%;
+  min-height: 50%;
+  vertical-align: top;
+  border-top-right-radius: 5px;
+}
 
-/* #quitButton{
+#player4{
+  padding-top: 0px;
+  margin-top: -1px;
   vertical-align: bottom;
-  float: left;
-} */
+  border-bottom-right-radius: 5px;
+}
+
+#players24Border :hover{
+  background-color: darkgrey;
+  color:white;
+}
 
 .newGameForm{
   margin-top: 20px;
   background-color: #282828;
 }
+
 .newGameForm h3{
   padding:5px;
   color:white;
   font-size: 1.5em;
   background-color: #181818;
 }
+
 .newGameForm form{
   margin-top:25px;
   background-color: #282828;
   padding-bottom: 25px;
 }
+
 #activeGamesList{
   margin-top: 20px;
   color:white;
   font-size: 1.25em;
   background-color: #181818;
 }
+
 #activeGamesList h3{
   padding:5px;
   font-size: 1.25em;
 }
+
 #activeGamesList ul{
   padding-right:100px;
   padding-left:100px;
   background-color: #282828;
 }
+
 #activeGamesList ul li{
   list-style-type: none;
   padding:2px;
 }
-#homepageButton{
+
+.homepageButton button{
   font-size: 1.5em;
   padding:10px;
   margin:20px;
   color:#6666CC;
   background-color:#282828;
 }
-.homepageButtonPleaseBehaveNowKThxBye button{
-  font-size: 1.5em;
-  padding:10px;
-  margin:20px;
-  color:#6666CC;
-  background-color:#282828;
-}
-#lulz{
+
+.footer{
   margin:auto;
-  color: #282828;
+  color: #444444;
 }

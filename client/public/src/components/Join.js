@@ -33,7 +33,7 @@ class Join extends Component {
             }
           </ul>
         </div>
-        <div className='homepageButtonPleaseBehaveNowKThxBye'>
+        <div className='homepageButton'>
           <button className="gameButton" onClick={this.props.loadHomePage}>Back to homepage</button>
         </div>
       </div>

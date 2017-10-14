@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
@@ -30,50 +30,49 @@ class Game extends Component {
     }
   }
   render() {
-    let {players} = this.props.gameInfo;
+    let { players } = this.props.gameInfo;
     return (
       <div>
         <Logo type={"sub-page"} />
 
-          <div id="players13Border">
-            {(this.keyWithNumber(1)) ?
-              <div id="player1" className ="playerBorder">
-                <PlayerBox player={players[this.keyWithNumber(1)]} />
-              </div>
-              : ""}
-            {(this.keyWithNumber(3)) ?
-                <div id="player3" className ="playerBorder">
-                  <PlayerBox player={players[this.keyWithNumber(3)]} />
-                </div>
-                : ""}
-          </div>
+        <div id="players13Border">
+          {(this.keyWithNumber(1)) ?
+            <div id="player1" className="playerBorder">
+              <PlayerBox player={players[this.keyWithNumber(1)]} />
+            </div>
+            : ""}
+          {(this.keyWithNumber(3)) ?
+            <div id="player3" className="playerBorder">
+              <PlayerBox player={players[this.keyWithNumber(3)]} />
+            </div>
+            : ""}
+        </div>
 
-          <div className="" id="dungeonCanvas">
-            {this.loadCanvas()}
-          </div>
+        <div className="" id="dungeonCanvas">
+          {this.loadCanvas()}
+        </div>
 
-          <div id="players24Border">
+        <div id="players24Border">
 
-              {(this.keyWithNumber(2)) ?
-                <div id="player2" className ="playerBorder">
-                  <PlayerBox player={players[this.keyWithNumber(2)]} />
-                </div>
-                : ""}
+          {(this.keyWithNumber(2)) ?
+            <div id="player2" className="playerBorder">
+              <PlayerBox player={players[this.keyWithNumber(2)]} />
+            </div>
+            : ""}
 
-              {(this.keyWithNumber(3)) ?
-                <div id="player4" className ="playerBorder">
-                  <PlayerBox player={players[this.keyWithNumber(4)]} />
-                </div>
-                : ""}
+          {(this.keyWithNumber(3)) ?
+            <div id="player4" className="playerBorder">
+              <PlayerBox player={players[this.keyWithNumber(4)]} />
+            </div>
+            : ""}
 
-          </div>
-          <div id='lulz'>
-            <Button className="gameButton" onClick={this.quitGame}>Leave Game</Button>
-            <p>&copy;2016 Scott Riley, Gordon Macintyre. Arts pinched from the Googletron. Sounds from bfxr.net / MetalSlug 3</p>
-            <p>#StannisIsTheOneTrueKingofWesteros</p>
-          </div>
+        </div>
+        <div className='footer'>
+          <Button className="gameButton" onClick={this.quitGame}>Leave Game</Button>
+          <p>&copy;2017 Scott Riley, Gordon Macintyre.</p>
+        </div>
       </div>
-      )
+    )
   }
 }
 

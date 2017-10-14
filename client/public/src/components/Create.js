@@ -43,7 +43,7 @@ class Create extends Component {
             <input ref="gameName" type="text" value={this.state.gameName} onChange={this.onChangeName} />
           </form>
         </div>
-        <div className='homepageButtonPleaseBehaveNowKThxBye'>
+        <div className='homepageButton'>
           <button className="gameButton" onClick={this.props.loadHomePage}>Back to homepage</button>
         </div>
       </div>

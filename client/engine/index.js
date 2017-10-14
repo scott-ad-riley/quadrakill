@@ -1,7 +1,7 @@
 //MAP DATA
-var mapTilesData = require('./config/MapTilesData');
-var mapObjectsData = require('./config/MapObjectsData');
-var mapItemsData = require('./config/MapItemsData');
+import mapTilesData from './config/MapTilesData'
+import mapObjectsData from './config/MapObjectsData'
+import mapItemsData from './config/MapItemsData'
 
 //MODELS
 var Player = require('./models/Player');
@@ -82,7 +82,7 @@ var updatePlayer = function (updatedPlayer) {
   players[updatedPlayer.id].vsp = updatedPlayer.vsp;
 }
 
-var createBullet = function(bulletData) {
+var createBullet = function (bulletData) {
   let args = {
     player: {
       x: bulletData.x,
@@ -112,25 +112,25 @@ var socketPlayerMoved = debounce(function () {
 
 var socketWeaponPickedUp = function (weapon) {
   if (outgoingListeners.onWeaponPickup) {
-    outgoingListeners.onWeaponPickup({player: player, weapon: weapon});
+    outgoingListeners.onWeaponPickup({ player: player, weapon: weapon });
   }
 }
 
 var socketItemPickedUp = function (item) {
   if (outgoingListeners.onItemPickup) {
-    outgoingListeners.onItemPickup({player: player, item: item})
+    outgoingListeners.onItemPickup({ player: player, item: item })
   }
 }
 
 var socketTakeDamage = function (value) {
   if (outgoingListeners.onTakeDamage) {
-    outgoingListeners.onTakeDamage({value: value, player: player});
+    outgoingListeners.onTakeDamage({ value: value, player: player });
   }
 }
 
 var socketPlayerDied = function (enemy) {
   if (outgoingListeners.onPlayerDied) {
-    outgoingListeners.onPlayerDied({player: player, enemy: enemy})
+    outgoingListeners.onPlayerDied({ player: player, enemy: enemy })
   }
 }
 
@@ -144,12 +144,12 @@ var itemGone = function (item) {
   mapItems.items[item.id].restock();
 }
 
-var playerTakeDamage = function(data) {
+var playerTakeDamage = function (data) {
   players[data.player.id].takeDamage(data.value);
 }
 
 var playerDied = function (data) {
-  if (player.id !== data.player.id){
+  if (player.id !== data.player.id) {
     // players[data.player.id].playerDeath(data.enemy);
     setTimeout(() => {
       players[data.player.id].respawn(data.newX, data.newY);
@@ -207,7 +207,7 @@ var setup = (canvasWidth, canvasHeight, reqAnimFrame, context, setupListenersCal
 };
 
 // UPDATE - RUN MULTIPLE TIMES A SECOND!
-var update = function(delta) {
+var update = function (delta) {
   for (let eachPlayer in players) {
     // players[eachPlayer].calculateWallCollisions(mapObjects.collideable);
     // players[eachPlayer].calculateObjectCollisions(mapObjects.passable);
@@ -242,30 +242,30 @@ var update = function(delta) {
   //CHECK STATUS
   player.status();
 
-  let {up, down, left, right} = keys.state().movement;
+  let { up, down, left, right } = keys.state().movement;
   if (up || down || left || right) {
     socketPlayerMoved();
   }
 
   // NEW UP BULLET AND FIRE IN DIRECTION
-  if (player.canFire()){
+  if (player.canFire()) {
     // Could loop here/make this code more DRY, but would just involve a loop
     if (keys.state().shooting.up) {
       var newBullet = player.fireBullet('up');
       socketPlayerFired(newBullet);
       bullets.items.push(newBullet);
     }
-    if (keys.state().shooting.down){
+    if (keys.state().shooting.down) {
       var newBullet = player.fireBullet('down');
       socketPlayerFired(newBullet);
       bullets.items.push(newBullet);
     }
-    if (keys.state().shooting.left){
+    if (keys.state().shooting.left) {
       var newBullet = player.fireBullet('left');
       socketPlayerFired(newBullet);
       bullets.items.push(newBullet);
     }
-    if (keys.state().shooting.right){
+    if (keys.state().shooting.right) {
       var newBullet = player.fireBullet('right');
       socketPlayerFired(newBullet);
       bullets.items.push(newBullet);

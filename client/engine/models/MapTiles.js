@@ -13,13 +13,13 @@ var MapTiles = function (mapData, tiles) {
 
 MapTiles.prototype = {
   render: function (xPos, yPos, ctx) {
-    for(let i=0 ; i < this.data[mapNum].length; i+=1){
-      for(let j=0 ; j < this.data[mapNum][i].length; j+=1){
-        ctx.drawImage(this.tileImages[this.data[mapNum][i][j]],xPos,yPos);
+    for (let i = 0; i < this.data.length; i += 1) {
+      for (let j = 0; j < this.data[i].length; j += 1) {
+        ctx.drawImage(this.tileImages[this.data[i][j]], xPos, yPos);
         xPos += 16;
       }
       xPos = 0;
-      yPos+=16;
+      yPos += 16;
     }
   }
 }

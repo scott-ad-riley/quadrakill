@@ -9,5 +9,3 @@ module.exports.reloadDelay = [300, 50, 500];
 
 module.exports.moveState = 0;
 module.exports.moveModifier = [1, 1.5, 0.5];
-
-module.exports.mapNum = 0;

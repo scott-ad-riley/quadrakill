@@ -2,15 +2,11 @@
 var EventEmitter = require('events')
 
 //MAP DATA
-// var mapTilesData = require('./config/MapTilesData')
-// var mapObjectsData = require('./config/MapObjectsData')
-var mapItemsData = require('../../data/items.json')
+import mapItemsData from '../../data/items.json'
 
 //MODELS
 var Player = require('./models/Player')
 var Bullet = require('./models/Bullet')
-// var MapTiles = require('./models/MapTiles')
-// var MapObjects = require('./models/MapObjects')
 var MapItems = require('./models/MapItems')
 var Projectiles = require('./models/Projectiles')
 
@@ -20,7 +16,6 @@ var MapItemFactory = require('./utils/MapItemFactory')
 import spawnPoints from './utils/spawnPoints'
 
 var Keys = require('./utils/keys')
-var assets = require('./config/assets')
 var getDirection = require('./utils/getDirection')
 var getNumbers = require('./utils/getNumbers')
 

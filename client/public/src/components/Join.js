@@ -1,9 +1,9 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import Logo from './Logo'
-import JoinGame from './JoinGame'
+import Footer from './Footer'
 
 import joinGame from '../actions/joinGame'
 import loadHomePage from '../actions/loadHomePage'
@@ -11,7 +11,11 @@ import { joinGame as joinSocketGame } from '../canvas/socket'
 
 class Join extends Component {
   renderGame = (key, index) => {
-    return <JoinGame key={index} onClick={this.joinGame(key)}>{key}</JoinGame>
+    return (
+      <li key={index} onClick={this.joinGame(key)}>
+        {key}
+      </li>
+    )
   }
   joinGame(gameName) {
     return () => {
@@ -23,38 +27,37 @@ class Join extends Component {
     return (
       <div>
         <div className="sublogo">
-          <Logo type={"home-heading"} />
+          <Logo type={'home-heading'} />
         </div>
         <div id="activeGamesList">
           <h3>Open Games</h3>
-          <ul className="gameList">
-            {
-              Object.keys(this.props.games).map(this.renderGame)
-            }
-          </ul>
+          <ul className="gameList">{Object.keys(this.props.games).map(this.renderGame)}</ul>
         </div>
-        <div className='homepageButton'>
-          <button className="gameButton" onClick={this.props.loadHomePage}>Back to homepage</button>
+        <div className="homepageButton">
+          <button className="gameButton" onClick={this.props.loadHomePage}>
+            Back to homepage
+          </button>
+          <Footer />
         </div>
       </div>
-      )
+    )
   }
 }
 
 Join.contextTypes = {
-  socket: PropTypes.object
+  socket: PropTypes.object,
 }
 
 const mapStateToProps = ({ games }) => {
   return {
-    games: games
+    games: games,
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    joinGame: (gameName) => dispatch(joinGame(gameName)),
-    loadHomePage: () => dispatch(loadHomePage)
+    joinGame: gameName => dispatch(joinGame(gameName)),
+    loadHomePage: () => dispatch(loadHomePage),
   }
 }
 

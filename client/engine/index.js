@@ -337,7 +337,6 @@ var main = function(currentDelta) {
   render(ctx)
   startTime = now
   // repeat
-  console.log('doing a main')
   raf(() => {
     if (gameLive) main(delta)
   })

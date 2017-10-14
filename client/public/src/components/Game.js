@@ -3,73 +3,54 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import Logo from './Logo'
-import PlayerBox from './PlayerBox'
+import Player from './Player'
 import Button from './Button'
+import Footer from './Footer'
 
 import runGame, { leave } from '../canvas/main'
 import quitGame from '../actions/quitGame'
 import { disconnectGame } from '../canvas/socket'
-
-var foo = require('../canvas/main')
 
 class Game extends Component {
   componentDidMount() {
     runGame(this.refs.canvas.getContext('2d'), 768, 512)
   }
   loadCanvas = () => {
-    return <canvas height="512" width="768" ref="canvas"></canvas>
+    return <canvas height="512" width="768" ref="canvas" />
   }
   quitGame = () => {
     leave() // clears engine and socket listeners
     disconnectGame(this.context.socket, this.props.game.id) // tells the server
     this.props.quitGame() // tells redux
   }
-  keyWithNumber = (number) => {
+  keyWithNumber = number => {
     for (let eachPlayer in this.props.gameInfo.players) {
-      if (this.props.gameInfo.players[eachPlayer].number === number) return eachPlayer;
+      if (this.props.gameInfo.players[eachPlayer].number === number) return eachPlayer
     }
   }
   render() {
-    let { players } = this.props.gameInfo;
     return (
       <div>
-        <Logo type={"sub-page"} />
+        <Logo type={'sub-page'} />
 
-        <div id="players13Border">
-          {(this.keyWithNumber(1)) ?
-            <div id="player1" className="playerBorder">
-              <PlayerBox player={players[this.keyWithNumber(1)]} />
-            </div>
-            : ""}
-          {(this.keyWithNumber(3)) ?
-            <div id="player3" className="playerBorder">
-              <PlayerBox player={players[this.keyWithNumber(3)]} />
-            </div>
-            : ""}
+        <div id="playersLeftBorder">
+          <Player number={1} />
+          <Player number={3} />
         </div>
 
         <div className="" id="dungeonCanvas">
           {this.loadCanvas()}
         </div>
 
-        <div id="players24Border">
-
-          {(this.keyWithNumber(2)) ?
-            <div id="player2" className="playerBorder">
-              <PlayerBox player={players[this.keyWithNumber(2)]} />
-            </div>
-            : ""}
-
-          {(this.keyWithNumber(3)) ?
-            <div id="player4" className="playerBorder">
-              <PlayerBox player={players[this.keyWithNumber(4)]} />
-            </div>
-            : ""}
-
+        <div id="playersRightBorder">
+          <Player number={2} />
+          <Player number={4} />
         </div>
-        <div className='footer'>
-          <Button className="gameButton" onClick={this.quitGame}>Leave Game</Button>
-          <p>&copy;2017 Scott Riley, Gordon Macintyre.</p>
+        <div>
+          <Button className="gameButton" onClick={this.quitGame}>
+            Leave Game
+          </Button>
+          <Footer />
         </div>
       </div>
     )
@@ -77,20 +58,20 @@ class Game extends Component {
 }
 
 Game.contextTypes = {
-  socket: PropTypes.object
+  socket: PropTypes.object,
 }
 
 const mapStateToProps = ({ currentGame, currentGameInfo }) => {
   return {
     gameInfo: currentGameInfo,
     game: currentGame,
-    actions: {}
+    actions: {},
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    quitGame: () => dispatch(quitGame)
+    quitGame: () => dispatch(quitGame),
   }
 }
 

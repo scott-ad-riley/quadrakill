@@ -1,35 +1,43 @@
-*, body, html {font-family: "VT323", sans-serif;margin: 0;padding: 0;}
+*,
+body,
+html {
+  font-family: 'VT323', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+body,
+html {
+  min-height: 100%;
+}
 
 body {
-  min-height: 100%;
   background-color: black;
-  background-image: url("https://images7.alphacoders.com/366/366645.jpg")
+  background-image: url('https://images7.alphacoders.com/366/366645.jpg');
+  background-size: cover;
 }
 
 .home-heading {
   font-weight: 400;
   font-size: 8em;
-  margin-top:30%;
+  margin-top: 30%;
 }
 
-#app {
-  display:inline-block;
-}
-
-.center {
-  flex: 1;
+.container {
+  display: inline-block;
 }
 
 button.gameButton {
   font-size: 1.5em;
-  padding:10px;
-  margin:20px;
-  color:#6666CC;
-  background-color:#282828;
+  padding: 10px;
+  margin: 20px;
+  color: #6666cc;
+  background-color: #282828;
 }
 
 .clip-text {
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   background-image: url(http://www.magic-circle.co.za/images/fire1.gif);
   background-repeat: repeat-x;
@@ -37,11 +45,11 @@ button.gameButton {
   background-position-y: 70%;
 }
 
-.row{
+.center-text {
   text-align: center;
 }
 
-.playerBorder{
+.playerBorder {
   font-size: 1.5em;
   background-color: lightgrey;
   height: 256px;
@@ -54,117 +62,117 @@ button.gameButton {
   height: 100%;
 }
 
-.playerBorder h3{
-  padding:5px;
+.playerBorder h3 {
+  padding: 5px;
 }
 
-.playerBorder p{
-  padding:5px;
+.playerBorder p {
+  padding: 5px;
 }
 
-#players13Border{
-  display:inline-block;
+#playersLeftBorder {
+  display: inline-block;
   vertical-align: top;
   width: 140px;
 }
 
-#player1{
+#player1 {
   vertical-align: top;
   border-top-left-radius: 5px;
 }
 
-#player3{
+#player3 {
   padding-top: 0px;
   margin-top: -1px;
   vertical-align: bottom;
   border-bottom-left-radius: 5px;
 }
 
-#players13Border :hover{
+#playersLeftBorder :hover {
   background-color: darkgrey;
-  color:white;
+  color: white;
 }
 
-#dungeonCanvas{
-  display:inline-block;
+#dungeonCanvas {
+  display: inline-block;
 }
 
-#players24Border{
-  display:inline-block;
+#playersRightBorder {
+  display: inline-block;
   vertical-align: top;
   width: 140px;
-  height: 512
+  height: 512;
 }
 
-#player2{
+#player2 {
   height: 100%;
   min-height: 50%;
   vertical-align: top;
   border-top-right-radius: 5px;
 }
 
-#player4{
+#player4 {
   padding-top: 0px;
   margin-top: -1px;
   vertical-align: bottom;
   border-bottom-right-radius: 5px;
 }
 
-#players24Border :hover{
+#playersRightBorder :hover {
   background-color: darkgrey;
-  color:white;
+  color: white;
 }
 
-.newGameForm{
+.newGameForm {
   margin-top: 20px;
   background-color: #282828;
 }
 
-.newGameForm h3{
-  padding:5px;
-  color:white;
+.newGameForm h3 {
+  padding: 5px;
+  color: white;
   font-size: 1.5em;
   background-color: #181818;
 }
 
-.newGameForm form{
-  margin-top:25px;
+.newGameForm form {
+  margin-top: 25px;
   background-color: #282828;
   padding-bottom: 25px;
 }
 
-#activeGamesList{
+#activeGamesList {
   margin-top: 20px;
-  color:white;
+  color: white;
   font-size: 1.25em;
   background-color: #181818;
 }
 
-#activeGamesList h3{
-  padding:5px;
+#activeGamesList h3 {
+  padding: 5px;
   font-size: 1.25em;
 }
 
-#activeGamesList ul{
-  padding-right:100px;
-  padding-left:100px;
+#activeGamesList ul {
+  padding-right: 100px;
+  padding-left: 100px;
   background-color: #282828;
 }
 
-#activeGamesList ul li{
+#activeGamesList ul li {
   list-style-type: none;
-  padding:2px;
+  padding: 2px;
 }
 
-.homepageButton button{
+.homepageButton button {
   font-size: 1.5em;
-  padding:10px;
-  margin:20px;
-  color:#6666CC;
-  background-color:#282828;
+  padding: 10px;
+  margin: 20px;
+  color: #6666cc;
+  background-color: #282828;
 }
 
-.footer{
-  margin:auto;
+.footer {
+  margin: auto;
   color: #444444;
 }

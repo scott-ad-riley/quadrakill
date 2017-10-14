@@ -8,10 +8,10 @@ export default class PlayerBox extends Component {
   render() {
     if (this.props.player) {
 
-    let weapon = weaponNames[this.props.player.weaponNum]
-    let activePlayerBox = ("/#" + getID() === this.props.player.id)
-    
-    return (
+      let weapon = weaponNames[this.props.player.weaponNum]
+      let activePlayerBox = getID() === this.props.player.id
+
+      return (
         <div className={(activePlayerBox) ? "activePlayerBox" : "bar"}>
           <h3>PLAYER {this.props.player.number}</h3>
           <p><i>K:D</i> {this.props.player.killCount}:{this.props.player.deathCount}</p>

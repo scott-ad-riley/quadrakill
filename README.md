@@ -1,6 +1,7 @@
 # CrossFire
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/scott-ad-riley/crossfire.svg)](https://greenkeeper.io/)[![Build Status](https://travis-ci.org/scott-ad-riley/crossfire.svg?branch=master)](https://travis-ci.org/scott-ad-riley/crossfire)
+[![Greenkeeper badge](https://badges.greenkeeper.io/scott-ad-riley/crossfire.svg)](https://greenkeeper.io/)
+[![Build Status](https://travis-ci.org/scott-ad-riley/crossfire.svg?branch=master)](https://travis-ci.org/scott-ad-riley/crossfire)
 
 ## Deployment
 

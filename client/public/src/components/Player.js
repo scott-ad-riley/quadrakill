@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import _ from 'lodash'
+import PropTypes from 'prop-types'
 
 import weaponNames from '../../../engine/utils/weaponNames'
 
@@ -13,7 +14,7 @@ class Player extends Component {
     let weapon = weaponNames[this.props.player.weaponNum]
     return (
       <div id="player1" className="playerBorder">
-        <div className={this.props.isUser ? 'activePlayerBox' : 'bar'}>
+        <div className={this.props.isUser(this.context.socket) ? 'activePlayerBox' : 'bar'}>
           <h3>PLAYER {this.props.player.number}</h3>
           <p>
             <i>K:D</i> {this.props.player.killCount}:{this.props.player.deathCount}
@@ -31,6 +32,10 @@ class Player extends Component {
   }
 }
 
+Player.contextTypes = {
+  socket: PropTypes.object,
+}
+
 const mapStateToProps = ({ currentGameInfo }, { number }) => {
   if (_.isEmpty(currentGameInfo.players)) return { isInGame: false }
   return {
@@ -38,7 +43,7 @@ const mapStateToProps = ({ currentGameInfo }, { number }) => {
       .map(p => p.number)
       .includes(number),
     player: Object.values(currentGameInfo.players).find(p => p.number === number),
-    isUser: currentGameInfo.players[getID()].number === number,
+    isUser: socket => currentGameInfo.players[getID(socket)].number === number,
   }
 }
 

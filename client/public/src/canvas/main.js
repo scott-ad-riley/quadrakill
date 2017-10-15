@@ -66,11 +66,11 @@ export function setupAssets() {
   loadAssets(spriteUrls, soundUrls)
 }
 
-export function leave() {
+export function leave(socket) {
   engine.incoming.quitGame()
-  clearListeners(engine)
+  clearListeners(engine, socket)
 }
 
-export default function run(ctx, canvasWidth, canvasHeight) {
-  setup(canvasWidth, canvasHeight, requestAnimationFrame, ctx, setupListeners(engine))
+export default function run(ctx, canvasWidth, canvasHeight, socket) {
+  setup(canvasWidth, canvasHeight, requestAnimationFrame, ctx, setupListeners(engine, socket))
 }

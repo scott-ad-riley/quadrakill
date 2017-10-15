@@ -13,20 +13,15 @@ import { disconnectGame } from '../canvas/socket'
 
 class Game extends Component {
   componentDidMount() {
-    runGame(this.refs.canvas.getContext('2d'), 768, 512)
+    runGame(this.refs.canvas.getContext('2d'), 768, 512, this.context.socket)
   }
   loadCanvas = () => {
     return <canvas height="512" width="768" ref="canvas" />
   }
   quitGame = () => {
-    leave() // clears engine and socket listeners
+    leave(this.context.socket) // clears engine and socket listeners
     disconnectGame(this.context.socket, this.props.game.id) // tells the server
     this.props.quitGame() // tells redux
-  }
-  keyWithNumber = number => {
-    for (let eachPlayer in this.props.gameInfo.players) {
-      if (this.props.gameInfo.players[eachPlayer].number === number) return eachPlayer
-    }
   }
   render() {
     return (
@@ -63,9 +58,7 @@ Game.contextTypes = {
 
 const mapStateToProps = ({ currentGame, currentGameInfo }) => {
   return {
-    gameInfo: currentGameInfo,
     game: currentGame,
-    actions: {},
   }
 }
 

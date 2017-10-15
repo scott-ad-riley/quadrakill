@@ -6,13 +6,15 @@
   "scripts": {
     "dev": "run-p -rns webpack-watch node-server-dev node-client",
     "webpack-watch": "webpack -w",
-    "node-server": "node server/index.js",
+    "node-server": "babel-node server/index.js",
     "node-server-dev": "nodemon server/index.js --exec babel-node",
     "node-client": "node client/static-server.js",
     "start": "webpack && run-p -r node-server node-client",
     "test": "jest",
-    "client-build": "webpack && mkdir surge && cp client/public/build/bundle.js surge/ && cp -r client/public/assets/* surge/",
-    "client-deploy": "npm run client-build && echo http://crossfire.placeofthin.gs >> surge/CNAME && surge surge/ && rm -rf surge"
+    "client-build":
+      "webpack && mkdir surge && cp client/public/build/bundle.js surge/ && cp -r client/public/assets/* surge/",
+    "client-deploy":
+      "npm run client-build && echo http://crossfire.placeofthin.gs >> surge/CNAME && surge surge/ && rm -rf surge"
   },
   "repository": {
     "type": "git",

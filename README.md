@@ -5,23 +5,17 @@
 
 ## Deployment
 
-* Auto deploys are almost setup via codeship and gitlab
+* Auto deploys are currently being setup via github and travis (see [this issue](https://github.com/scott-ad-riley/crossfire/issues/3))
 
 ## Setup
 
 * `git clone` this repo
 * `npm i`
-* `npm i -g nodemon` for development
 
 ## Running
 
 * run `npm start`
   * open browser to http://localhost:3000
-
-## Development
-
-* run `npm run dev`
-  * open browser to http://localhost:3000
-    * code changes will auto refresh server
-
-
+* or `npm run dev`
+  * if you want webpack/nodemon to watch for changes and reload
+* `npm test`

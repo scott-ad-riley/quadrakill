@@ -23,11 +23,6 @@ class Game extends Component {
     disconnectGame(this.context.socket, this.props.game.id) // tells the server
     this.props.quitGame() // tells redux
   }
-  keyWithNumber = number => {
-    for (let eachPlayer in this.props.gameInfo.players) {
-      if (this.props.gameInfo.players[eachPlayer].number === number) return eachPlayer
-    }
-  }
   render() {
     return (
       <div>
@@ -63,9 +58,7 @@ Game.contextTypes = {
 
 const mapStateToProps = ({ currentGame, currentGameInfo }) => {
   return {
-    gameInfo: currentGameInfo,
     game: currentGame,
-    actions: {},
   }
 }
 

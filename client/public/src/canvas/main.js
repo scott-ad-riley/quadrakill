@@ -1,4 +1,3 @@
-// import { setup } from 'crossfire-game-engine';
 import { setup, createHandler, engine, loadAssets } from '../../../engine/index.js'
 import { setupListeners, clearListeners } from './socket.js'
 

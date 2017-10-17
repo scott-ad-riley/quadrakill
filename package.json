@@ -1,7 +1,7 @@
 {
-  "name": "crossfire",
+  "name": "quadrakill",
   "version": "1.0.0",
-  "description": "CrossFire is a multiplayer topdown pixel arena shooter",
+  "description": "Quadrakill is a multiplayer topdown pixel arena shooter",
   "main": "index.js",
   "scripts": {
     "dev": "run-p -rns webpack-watch node-server-dev node-client",
@@ -11,21 +11,19 @@
     "node-client": "node client/static-server.js",
     "start": "webpack && run-p -r node-server node-client",
     "test": "jest",
-    "client-build":
-      "webpack && mkdir surge && cp client/public/build/bundle.js surge/ && cp -r client/public/assets/* surge/",
-    "client-deploy":
-      "npm run client-build && echo http://crossfire.placeofthin.gs >> surge/CNAME && surge surge/ && rm -rf surge"
+    "client-build": "webpack && mkdir surge && cp client/public/build/bundle.js surge/ && cp -r client/public/assets/* surge/",
+    "client-deploy": "npm run client-build && echo http://quadrakill.placeofthin.gs >> surge/CNAME && surge surge/ && rm -rf surge"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/scott-ad-riley/crossfire.git"
+    "url": "git+https://github.com/scott-ad-riley/quadrakill.git"
   },
   "author": "Scott Riley",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/scott-ad-riley/crossfire/issues"
+    "url": "https://github.com/scott-ad-riley/quadrakill/issues"
   },
-  "homepage": "https://github.com/scott-ad-riley/crossfire#readme",
+  "homepage": "https://github.com/scott-ad-riley/quadrakill#readme",
   "dependencies": {
     "express": "^4.14.0",
     "lodash": "^4.13.1",

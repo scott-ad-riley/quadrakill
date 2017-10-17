@@ -2,7 +2,7 @@
 var EventEmitter = require('events')
 
 //MAP DATA
-import mapItemsData from '../../data/items.json'
+import mapItemsData from './config/MapItemsData'
 
 //MODELS
 var Player = require('./models/Player')

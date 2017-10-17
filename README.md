@@ -1,11 +1,11 @@
-# CrossFire
+# Quadrakill
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/scott-ad-riley/crossfire.svg)](https://greenkeeper.io/)
-[![Build Status](https://travis-ci.org/scott-ad-riley/crossfire.svg?branch=master)](https://travis-ci.org/scott-ad-riley/crossfire)
+[![Greenkeeper badge](https://badges.greenkeeper.io/scott-ad-riley/quadrakill.svg)](https://greenkeeper.io/)
+[![Build Status](https://travis-ci.org/scott-ad-riley/quadrakill.svg?branch=master)](https://travis-ci.org/scott-ad-riley/quadrakill)
 
 ## Deployment
 
-* Auto deploys are currently being setup via github and travis (see [this issue](https://github.com/scott-ad-riley/crossfire/issues/3))
+* Auto deploys are currently being setup via github and travis (see [this issue](https://github.com/scott-ad-riley/quadrakill/issues/3))
 
 ## Setup
 

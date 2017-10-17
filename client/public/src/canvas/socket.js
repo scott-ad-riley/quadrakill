@@ -4,7 +4,7 @@ export function connect() {
   if (window.location.hostname === 'localhost') {
     return io('http://localhost:8080')
   } else {
-    return io('http://crossfire-server.placeofthin.gs')
+    return io('http://quadrakill-server.placeofthin.gs')
   }
 }
 

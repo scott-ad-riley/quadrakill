@@ -1,7 +1,6 @@
 var MapItems = function(mapItemData, ItemConstructors) {
   this.rawData = mapItemData
   this.data = []
-  console.log('heyyyyyy')
   var xPos = 0
   var yPos = 0
   for (let i = 0; i < this.rawData.length; i += 1) {

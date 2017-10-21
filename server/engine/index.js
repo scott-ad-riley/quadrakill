@@ -4,6 +4,8 @@ var EventEmitter = require('events')
 //MAP DATA
 import mapItemsData from './config/MapItemsData'
 
+import { ENGINE_IN, ENGINE_OUT } from '../events'
+
 //MODELS
 var Player = require('./models/Player')
 var Bullet = require('./models/Bullet')
@@ -38,14 +40,14 @@ var Engine = function(canvasWidth, canvasHeight) {
 }
 
 Engine.prototype.setupEvents = function() {
-  this.eventEmitter.on('new player', data => this.addNewPlayer(data))
-  this.eventEmitter.on('remove player', data => this.removePlayer(data))
-  this.eventEmitter.on('player moved', data => this.movePlayer(data))
-  this.eventEmitter.on('bullet fired', data => this.bulletFired(data))
-  this.eventEmitter.on('weapon picked up', data => this.weaponPickedUp(data))
-  this.eventEmitter.on('item picked up', data => this.itemPickedUp(data))
-  this.eventEmitter.on('player take damage', data => this.playerTakeDamage(data))
-  this.eventEmitter.on('player has died', data => this.playerDeath(data))
+  this.eventEmitter.on(ENGINE_IN.NEW_PLAYER, data => this.addNewPlayer(data))
+  this.eventEmitter.on(ENGINE_IN.REMOVE_PLAYER, data => this.removePlayer(data))
+  this.eventEmitter.on(ENGINE_IN.PLAYER_MOVED, data => this.movePlayer(data))
+  this.eventEmitter.on(ENGINE_IN.BULLET_FIRED, data => this.bulletFired(data))
+  this.eventEmitter.on(ENGINE_IN.WEAPON_PICKED_UP, data => this.weaponPickedUp(data))
+  this.eventEmitter.on(ENGINE_IN.ITEM_PICKED_UP, data => this.itemPickedUp(data))
+  this.eventEmitter.on(ENGINE_IN.PLAYER_TAKE_DAMAGE, data => this.playerTakeDamage(data))
+  this.eventEmitter.on(ENGINE_IN.PLAYER_HAS_DIED, data => this.playerDeath(data))
 }
 
 Engine.prototype.setupEntities = function() {
@@ -71,7 +73,7 @@ Engine.prototype.addNewPlayer = function(socketID) {
   if (playerNumber) {
     let spawn = spawnPoints(playerNumber)
     this.players[socketID] = new Player(spawn.x, spawn.y, socketID, playerNumber)
-    this.eventEmitter.emit('update players', this.players)
+    this.eventEmitter.emit(ENGINE_OUT.UPDATE_PLAYERS, this.players)
   }
   console.log('added a player so this.players keys:', Object.keys(this.players))
 }
@@ -79,7 +81,7 @@ Engine.prototype.addNewPlayer = function(socketID) {
 Engine.prototype.removePlayer = function(socketID) {
   console.log('removed a player with socket id:', socketID)
   delete this.players[socketID]
-  this.eventEmitter.emit('update players', this.players)
+  this.eventEmitter.emit(ENGINE_OUT.UPDATE_PLAYERS, this.players)
 }
 
 Engine.prototype.movePlayer = function(player) {
@@ -88,7 +90,7 @@ Engine.prototype.movePlayer = function(player) {
   playerToMove.y = player.y
   playerToMove.hsp = player.hsp
   playerToMove.vsp = player.vsp
-  this.eventEmitter.emit('update player', playerToMove)
+  this.eventEmitter.emit(ENGINE_OUT.UPDATE_PLAYER, playerToMove)
 }
 
 Engine.prototype.bulletFired = function(bullet) {
@@ -107,13 +109,13 @@ Engine.prototype.bulletFired = function(bullet) {
   if (bulletOwner.canFire()) {
     var newBullet = this.players[bullet.owner.id].fireBullet(getDirection(args.speed))
     this.bullets.items.push(newBullet)
-    this.eventEmitter.emit('create bullet', newBullet)
-    this.eventEmitter.emit('update players', this.players)
+    this.eventEmitter.emit(ENGINE_OUT.CREATE_BULLET, newBullet)
+    this.eventEmitter.emit(ENGINE_OUT.UPDATE_PLAYERS, this.players)
     if (bulletOwner.bulletCount === 0) {
       bulletOwner.startReload()
       setTimeout(() => {
         bulletOwner.finishReload()
-        this.eventEmitter.emit('update players', this.players)
+        this.eventEmitter.emit(ENGINE_OUT.UPDATE_PLAYERS, this.players)
       }, bulletOwner.reloadTime)
     }
   }
@@ -123,35 +125,35 @@ Engine.prototype.weaponPickedUp = function(data) {
   this.entities.weapons[data.weapon.id].active = false
   this.entities.weapons[data.weapon.id].restock()
   this.players[data.player.id].giveWeapon(data.weapon)
-  this.eventEmitter.emit('remove weapon', data.weapon)
-  this.eventEmitter.emit('update players', this.players)
+  this.eventEmitter.emit(ENGINE_OUT.REMOVE_WEAPON, data.weapon)
+  this.eventEmitter.emit(ENGINE_OUT.UPDATE_PLAYERS, this.players)
 }
 
 Engine.prototype.itemPickedUp = function(data) {
   this.entities.items[data.item.id].active = false
   this.entities.items[data.item.id].restock(this.entities.items[data.item.id].respawnTime)
   this.players[data.player.id].giveItem(data.item)
-  this.eventEmitter.emit('remove item', data.item)
-  this.eventEmitter.emit('update players', this.players)
+  this.eventEmitter.emit(ENGINE_OUT.REMOVE_ITEM, data.item)
+  this.eventEmitter.emit(ENGINE_OUT.UPDATE_PLAYERS, this.players)
 }
 
 Engine.prototype.playerTakeDamage = function(data) {
   this.players[data.player.id].takeDamage(data.value)
-  this.eventEmitter.emit('on player take damage', data)
-  this.eventEmitter.emit('update players', this.players)
+  this.eventEmitter.emit(ENGINE_OUT.ON_PLAYER_TAKE_DAMAGE, data)
+  this.eventEmitter.emit(ENGINE_OUT.UPDATE_PLAYERS, this.players)
 }
 
 Engine.prototype.playerDeath = function(data) {
   const newPosition = spawnPoints(Math.ceil(Math.random() * 4))
   this.players[data.player.id].playerDeath(data.enemy, this.players)
   this.players[data.player.id].health = 4
-  this.eventEmitter.emit('on player death', {
+  this.eventEmitter.emit(ENGINE_OUT.ON_PLAYER_DEATH, {
     player: data.player,
     enemy: data.enemy,
     newX: newPosition.x,
     newY: newPosition.y,
   })
-  this.eventEmitter.emit('update players', this.players)
+  this.eventEmitter.emit(ENGINE_OUT.UPDATE_PLAYERS, this.players)
 }
 
 export default Engine

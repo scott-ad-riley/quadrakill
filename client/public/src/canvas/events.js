@@ -18,4 +18,6 @@ export const IN = {
   REMOVE_ITEM: 'remove item',
   PLAYER_TAKE_DAMAGE: 'player take damage',
   REMOTE_PLAYER_DIED: 'remote player died',
+  GAMES_REFRESH: 'games refresh',
+  UPDATE_PLAYERS: 'update players'
 }

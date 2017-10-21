@@ -1,5 +1,6 @@
 // var Canvas = require('canvas');
 import Engine from './engine'
+import { ENGINE_OUT, ENGINE_IN, IN, OUT } from './events'
 
 const Simulation = function(data, io) {
   this.name = data.name
@@ -25,85 +26,85 @@ Simulation.prototype.playerIDs = function() {
 Simulation.prototype.setupListeners = function() {
   // convert these to new server-engine setup
   let engine = this.serverEngine.eventEmitter
-  engine.on('update players', this.updatePlayers.bind(this))
-  engine.on('update player', this.updatePlayer.bind(this))
-  engine.on('create bullet', this.createBullet.bind(this))
-  engine.on('remove weapon', this.removeWeapon.bind(this))
-  engine.on('remove item', this.removeItem.bind(this))
-  engine.on('on player take damage', this.playerTakeDamage.bind(this))
-  engine.on('on player death', this.playerDeath.bind(this))
+  engine.on(ENGINE_OUT.UPDATE_PLAYERS, this.updatePlayers.bind(this))
+  engine.on(ENGINE_OUT.UPDATE_PLAYER, this.updatePlayer.bind(this))
+  engine.on(ENGINE_OUT.CREATE_BULLET, this.createBullet.bind(this))
+  engine.on(ENGINE_OUT.REMOVE_WEAPON, this.removeWeapon.bind(this))
+  engine.on(ENGINE_OUT.REMOVE_ITEM, this.removeItem.bind(this))
+  engine.on(ENGINE_OUT.ON_PLAYER_TAKE_DAMAGE, this.playerTakeDamage.bind(this))
+  engine.on(ENGINE_OUT.ON_PLAYER_DEATH, this.playerDeath.bind(this))
 }
 
 // HANDLERS FOR THE SERVER ENGINE EMITTING EVENTS
 
 Simulation.prototype.updatePlayers = function(playersHash) {
-  this.io.sockets.in(this.name).emit('update players', playersHash)
+  this.io.sockets.in(this.name).emit(OUT.UPDATE_PLAYERS, playersHash)
 }
 
 Simulation.prototype.updatePlayer = function(player) {
-  this.players[player.id].to(this.name).broadcast.emit('update player', player)
+  this.players[player.id].to(this.name).broadcast.emit(OUT.UPDATE_PLAYER, player)
 }
 
 Simulation.prototype.createBullet = function(bulletData) {
-  this.players[bulletData.owner.id].to(this.name).broadcast.emit('create bullet', bulletData)
+  this.players[bulletData.owner.id].to(this.name).broadcast.emit(OUT.CREATE_BULLET, bulletData)
 }
 
 Simulation.prototype.removeWeapon = function(weaponData) {
-  this.io.sockets.in(this.name).emit('remove weapon', weaponData)
+  this.io.sockets.in(this.name).emit(OUT.REMOVE_WEAPON, weaponData)
 }
 
 Simulation.prototype.removeItem = function(itemData) {
-  this.io.sockets.in(this.name).emit('remove item', itemData)
+  this.io.sockets.in(this.name).emit(OUT.REMOVE_ITEM, itemData)
 }
 
 Simulation.prototype.playerTakeDamage = function(data) {
-  this.players[data.player.id].to(this.name).broadcast.emit('player take damage', data)
+  this.players[data.player.id].to(this.name).broadcast.emit(OUT.PLAYER_TAKE_DAMAGE, data)
 }
 
 Simulation.prototype.playerDeath = function(data) {
-  this.io.sockets.in(this.name).emit('remote player died', data)
+  this.io.sockets.in(this.name).emit(OUT.REMOTE_PLAYER_DIED, data)
 }
 
 Simulation.prototype.setupEvents = function(socket) {
   // this is to setup the server for any events the client might emit
-  socket.on('player moved', data => this.movePlayer(data))
-  socket.on('bullet fired', data => this.bulletFired(data))
-  socket.on('weapon picked up', data => this.weaponPickedUp(data))
-  socket.on('item picked up', data => this.itemPickedUp(data))
-  socket.on('player take damage', data => this.playerDamaged(data))
-  socket.on('player has died', data => this.playerDied(data))
+  socket.on(IN.PLAYER_MOVED, data => this.movePlayer(data))
+  socket.on(IN.BULLET_FIRED, data => this.bulletFired(data))
+  socket.on(IN.WEAPON_PICKED_UP, data => this.weaponPickedUp(data))
+  socket.on(IN.ITEM_PICKED_UP, data => this.itemPickedUp(data))
+  socket.on(IN.PLAYER_TAKE_DAMAGE, data => this.playerDamaged(data))
+  socket.on(IN.PLAYER_HAS_DIED, data => this.playerDied(data))
 }
 
 Simulation.prototype.movePlayer = function(data) {
-  this.serverEngine.eventEmitter.emit('player moved', data)
+  this.serverEngine.eventEmitter.emit(ENGINE_IN.PLAYER_MOVED, data)
 }
 Simulation.prototype.bulletFired = function(data) {
-  this.serverEngine.eventEmitter.emit('bullet fired', data)
+  this.serverEngine.eventEmitter.emit(ENGINE_IN.BULLET_FIRED, data)
 }
 Simulation.prototype.weaponPickedUp = function(data) {
-  this.serverEngine.eventEmitter.emit('weapon picked up', data)
+  this.serverEngine.eventEmitter.emit(ENGINE_IN.WEAPON_PICKED_UP, data)
 }
 Simulation.prototype.itemPickedUp = function(data) {
-  this.serverEngine.eventEmitter.emit('item picked up', data)
+  this.serverEngine.eventEmitter.emit(ENGINE_IN.ITEM_PICKED_UP, data)
 }
 Simulation.prototype.playerDamaged = function(data) {
-  this.serverEngine.eventEmitter.emit('player take damage', data)
+  this.serverEngine.eventEmitter.emit(ENGINE_IN.PLAYER_TAKE_DAMAGE, data)
 }
 Simulation.prototype.playerDied = function(data) {
-  this.serverEngine.eventEmitter.emit('player has died', data)
+  this.serverEngine.eventEmitter.emit(ENGINE_IN.PLAYER_HAS_DIED, data)
 }
 
 // HANDLERS FOR THE SOCKET EMITTING EVENTS
 
 Simulation.prototype.connectPlayer = function(socket) {
-  this.serverEngine.eventEmitter.emit('new player', socket.id)
+  this.serverEngine.eventEmitter.emit(ENGINE_IN.NEW_PLAYER, socket.id)
   this.setupEvents(socket)
   this.players[socket.id] = socket
 }
 
 Simulation.prototype.disconnectPlayer = function(socket, callback) {
   if (this.players[socket.id]) {
-    this.serverEngine.eventEmitter.emit('remove player', socket.id)
+    this.serverEngine.eventEmitter.emit(ENGINE_OUT.REMOVE_PLAYER, socket.id)
     delete this.players[socket.id]
     this.clearEvents(socket)
     callback()
@@ -113,12 +114,12 @@ Simulation.prototype.disconnectPlayer = function(socket, callback) {
 Simulation.prototype.clearEvents = function(socket) {
   // this is to remove the events created in setupEvents()
   socket
-    .removeAllListeners(['player moved'])
-    .removeAllListeners(['bullet fired'])
-    .removeAllListeners(['weapon picked up'])
-    .removeAllListeners(['item picked up'])
-    .removeAllListeners(['player take damage'])
-    .removeAllListeners(['player has died'])
+    .removeAllListeners([IN.PLAYER_MOVED])
+    .removeAllListeners([IN.BULLET_FIRED])
+    .removeAllListeners([IN.WEAPON_PICKED_UP])
+    .removeAllListeners([IN.ITEM_PICKED_UP])
+    .removeAllListeners([IN.PLAYER_TAKE_DAMAGE])
+    .removeAllListeners([IN.PLAYER_HAS_DIED])
 }
 
 export default Simulation

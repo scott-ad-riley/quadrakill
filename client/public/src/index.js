@@ -10,6 +10,8 @@ import gameReducer from './game-reducer.js'
 import refreshGames from './actions/refreshGames'
 import refreshPlayers from './actions/refreshPlayers'
 
+import { IN } from './canvas/events'
+
 import { connect } from './canvas/socket.js'
 
 window.onload = () => {
@@ -17,11 +19,11 @@ window.onload = () => {
 
   const store = createStore(gameReducer)
 
-  socket.on('games refresh', games => {
+  socket.on(IN.GAMES_REFRESH, games => {
     store.dispatch(refreshGames(games))
   })
 
-  socket.on('update players', players => {
+  socket.on(IN.UPDATE_PLAYERS, players => {
     store.dispatch(refreshPlayers(players))
   })
 

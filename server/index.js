@@ -2,6 +2,7 @@ var app = require('express')()
 var server = require('http').Server(app)
 var io = require('socket.io')(server)
 import Simulation from './simulation'
+import { IN, OUT } from './events'
 const games = {}
 server.listen(8080)
 
@@ -10,23 +11,23 @@ app.get('/', function(req, res) {
 })
 
 io.on('connection', function(socket) {
-  socket.emit('games refresh', gameList())
-  socket.on('create game', function(data) {
+  socket.emit(OUT.GAMES_REFRESH, gameList())
+  socket.on(IN.CREATE_GAME, function(data) {
     disconnectSocketFromGames(socket)
     const simulation = new Simulation({ name: data, height: 512, width: 768 }, io)
     games[data] = simulation
-    io.emit('games refresh', gameList())
+    io.emit(OUT.GAMES_REFRESH, gameList())
   })
 
-  socket.on('join game', function(data) {
+  socket.on(IN.JOIN_GAME, function(data) {
     disconnectSocketFromGames(socket)
     connectSocketToGame(games[data], socket)
   })
 
-  socket.on('quit game', function(data) {
+  socket.on(IN.QUIT_GAME, function(data) {
     disconnectSocketFromGames(socket)
   })
-  socket.on('disconnect', function() {
+  socket.on(IN.DISCONNECT, function() {
     disconnectSocketFromGames(socket)
   })
 })

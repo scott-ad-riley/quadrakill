@@ -5,7 +5,11 @@
 
 ## Deployment
 
-* Auto deploys are currently being setup via github and travis (see [this issue](https://github.com/scott-ad-riley/quadrakill/issues/3))
+* Auto deploys are setup on master
+  * The socket server is being deployed to a Digital Ocean VPS
+    * There's some additional work to be done here, see [this issue](https://github.com/scott-ad-riley/quadrakill/issues/4)
+  * The static files/frontend is on surge
+    * There's some additional work to be done here too, see [this issue](https://github.com/scott-ad-riley/quadrakill/issues/3)
 
 ## Setup
 

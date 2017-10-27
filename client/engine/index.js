@@ -22,9 +22,6 @@ var debounce = require('./utils/debounce')
 var getDirection = require('./utils/getDirection')
 import spawnPoints from './utils/spawnPoints'
 
-//SOUND FX
-var playSound = require('./utils/playSound.js')
-
 // GLOBALS
 var player,
   map,
@@ -39,7 +36,6 @@ var player,
   assets,
   keys,
   players = {},
-  sounds,
   gameLive
 
 var outgoingListeners = {
@@ -191,12 +187,9 @@ const quitGame = function() {
 
 keys = new Keys()
 
-var loadAssets = (spriteUrls, soundUrls) => {
+var loadAssets = spriteUrls => {
   assetsHelpers.loadSprites(spriteUrls, spritesArray => {
     assets = assetsHelpers.mapSprites(spritesArray)
-  })
-  assetsHelpers.loadSounds(soundUrls, soundsArray => {
-    sounds = assetsHelpers.mapSounds(soundsArray)
   })
 }
 

@@ -1,14 +1,10 @@
 var app = require('express')()
-var server = require('http').Server(app)
+const server = require('http').createServer(app)
 var io = require('socket.io')(server)
 import Simulation from './simulation'
 import { IN, OUT } from './events'
 const games = {}
 server.listen(8080)
-
-app.get('/', function(req, res) {
-  res.sendFile(__dirname + '/error_page.html')
-})
 
 io.on('connection', function(socket) {
   socket.emit(OUT.GAMES_REFRESH, gameList())
@@ -40,7 +36,7 @@ const forEachSimulation = function(callback) {
   }
 }
 
-const gameList = function() {
+const gameList = function(): Object {
   const result = {}
   forEachSimulation(game => {
     result[game.name] = {

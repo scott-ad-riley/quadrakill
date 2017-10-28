@@ -1,42 +1,37 @@
-var app = require('express')()
-const server = require('http').createServer(app)
-var io = require('socket.io')(server)
+import socketIO from 'socket.io'
 import Simulation from './simulation'
 import { IN, OUT } from './events'
-const games = {}
-server.listen(8080)
+import GamesList from './games_list'
 
-io.on('connection', function(socket) {
-  socket.emit(OUT.GAMES_REFRESH, gameList())
-  socket.on(IN.CREATE_GAME, function(data) {
-    disconnectSocketFromGames(socket)
+const games: GamesList = new GamesList()
+declare type gameName = string
+
+const io: SocketIO$Server = socketIO()
+io.attach(8080)
+
+io.on('connection', (socket: SocketIO$Socket): void => {
+  socket.emit(OUT.GAMES_REFRESH, games.list())
+  socket.on(IN.CREATE_GAME, function(data: string) {
+    disconnectSocket(socket)
     const simulation = new Simulation({ name: data, height: 512, width: 768 }, io)
     games[data] = simulation
     io.emit(OUT.GAMES_REFRESH, gameList())
   })
 
   socket.on(IN.JOIN_GAME, function(data) {
-    disconnectSocketFromGames(socket)
+    disconnectSocket(socket)
     connectSocketToGame(games[data], socket)
   })
 
   socket.on(IN.QUIT_GAME, function(data) {
-    disconnectSocketFromGames(socket)
+    disconnectSocket(socket)
   })
   socket.on(IN.DISCONNECT, function() {
-    disconnectSocketFromGames(socket)
+    disconnectSocket(socket)
   })
 })
 
-const forEachSimulation = function(callback) {
-  for (let simulationKey in games) {
-    if (games.hasOwnProperty(simulationKey)) {
-      callback(games[simulationKey])
-    }
-  }
-}
-
-const gameList = function(): Object {
+function gameList(): { [gameName]: Simulation } {
   const result = {}
   forEachSimulation(game => {
     result[game.name] = {
@@ -51,13 +46,14 @@ const connectSocketToGame = function(simulation, socket) {
   simulation.connectPlayer(socket)
 }
 
-const disconnectSocketFromGames = function(socket) {
-  forEachSimulation(simulation => {
-    simulation.disconnectPlayer(socket, () => {
-      socket.leave(simulation.name)
-      console.log(socket.id, 'left room:', simulation.name)
-    })
+function disconnectSocket(socket: SocketIO$Socket): void {
+  games.forEach(game => {
+    game.disconnectPlayer(socket)
   })
+}
+
+function disconnectSocketFromGame(game: Game): void {
+  game.disonnectPlayer(socket)
 }
 
 console.log('Socket Server started at http://localhost:8080')

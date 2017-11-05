@@ -1,3 +1,5 @@
+import type Game from './game'
+
 class GamesList {
   games: { [gameName]: Game }
   constructor() {
@@ -12,6 +14,22 @@ class GamesList {
 
   list(): { [gameName]: gameInfo } {
     return this.mapGames((game: Game): gameInfo => [game.playerCount(), game.maxPlayers])
+  }
+
+  addGame(gameName: gameName, game: Game): void {
+    this.games[gameName] = game
+  }
+
+  disconnectClientFromAllGames(socketId: string) {
+    this.forEach(game => game.disconnectClient(socketId))
+  }
+
+  disconnectClientFromGame(gameName: string, socketId: string): void {
+    this.games[gameName].disconnectClient(socketId)
+  }
+
+  connectClientToGame(gameName: string, socket: SocketIO$Socket): void {
+    this.games[gameName].connectClient(socket)
   }
 
   mapGames<T>(callback: Game => T): { [gameName]: T } {

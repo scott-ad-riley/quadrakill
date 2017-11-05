@@ -1,25 +1,39 @@
-// var Canvas = require('canvas');
 import Engine from './engine'
 import { ENGINE_OUT, ENGINE_IN, IN, OUT } from './events'
+import type EventEmitter from 'events'
 
 class Game {
   name: gameName
   players: { [string]: SocketIO$Socket }
   io: SocketIO$Server
-  serverEngine: Engine
+  serverEngine: any
+  maxPlayers: 4
 
-  constructor(setupData: gameSetupData, io: SocketIO$Server) {
-    this.name = setupData.name
+  constructor(gameName: gameName, height: number, width: number, io: SocketIO$Server) {
+    this.name = gameName
     this.players = {}
     this.io = io
-    this.serverEngine = new Engine(setupData.width, setupData.height)
+    this.serverEngine = new Engine(width, height)
     this.setupListeners()
   }
 
   setupListeners(): void {
-    let engine: any = this.serverEngine.eventEmitter
+    // let what: EventEmitter = this.serverEngine.eventEmitter
+  }
+
+  playerCount(): number {
+    return Object.keys(this.players).length
+  }
+
+  disconnectClient(socketId: string): void {}
+  connectClient(socket: SocketIO$Socket): void {
+    //   this.serverEngine.eventEmitter.emit(ENGINE_IN.NEW_PLAYER, socket.id)
+    //   this.setupEvents(socket)
+    this.players[socket.id] = socket
   }
 }
+
+export default Game
 
 // const Simulation = function({ name, height, width }: gameSetupData, io) {
 //   this.name = name

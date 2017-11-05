@@ -1,5 +1,5 @@
 // NATIVE NODE PACKAGES
-var EventEmitter = require('events')
+import EventEmitter from 'events'
 
 //MAP DATA
 import mapItemsData from './config/MapItemsData'
@@ -21,7 +21,7 @@ var Keys = require('./utils/keys')
 var getDirection = require('./utils/getDirection')
 var getNumbers = require('./utils/getNumbers')
 
-var Engine = function(canvasWidth, canvasHeight) {
+var Engine = function(canvasWidth: number, canvasHeight: number) {
   this.players = {}
   this.bullets = []
   this.entities = this.setupEntities()

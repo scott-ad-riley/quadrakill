@@ -5,23 +5,53 @@ import EventEmitter from 'events'
 import mapItemsData from './config/MapItemsData'
 
 import { ENGINE_IN, ENGINE_OUT } from '../events'
-
+import typeof MapItem from './models/MapWeapon'
 //MODELS
-var Player = require('./models/Player')
-var Bullet = require('./models/Bullet')
-var MapItems = require('./models/MapItems')
-var Projectiles = require('./models/Projectiles')
+import Player from './models/Player'
+import Bullet from './models/Bullet'
+import MapItems from './models/MapItems'
+import Projectiles from './models/Projectiles'
 
 //HELPERS/DEFAULTS
-var MapObjectFactory = require('./utils/MapObjectFactory')
-var MapItemFactory = require('./utils/MapItemFactory')
+import MapObjectFactory from './utils/MapObjectFactory'
+import MapItemFactory from './utils/MapItemFactory'
 import spawnPoints from './utils/spawnPoints'
 
-var Keys = require('./utils/keys')
-var getDirection = require('./utils/getDirection')
-var getNumbers = require('./utils/getNumbers')
+import Keys from './utils/keys'
+import getDirection from './utils/getDirection'
+import getNumbers from './utils/getNumbers'
 
-var Engine = function(canvasWidth: number, canvasHeight: number) {
+type itemNumber = '22' | '33' | '44' | '55' | '66' | '77'
+
+const itemMappings: { [itemNumber]: MapItem } = {
+  '22': MapItemFactory.weapon['assault'],
+  '33': MapItemFactory.weapon['shotgun'],
+  '44': MapItemFactory.item['health'],
+  '55': MapItemFactory.item['overshield'],
+  '66': MapItemFactory.item['speedBoost'],
+  '77': MapItemFactory.item['cloak'],
+}
+
+class Engine {
+  players: { [string]: any }
+  bullets: Array<any>
+  pubSub: EventEmitter
+  canvas: { height: number, width: number }
+  entities: MapItems
+
+  static setupEntities(): MapItems {
+    return new MapItems(mapItemsData, itemMappings)
+  }
+
+  constructor(width: number, height: number) {
+    this.players = {}
+    this.bullets = []
+    this.pubSub = new EventEmitter()
+    this.canvas = { height: height, width: width }
+    this.entities = Engine.setupEntities()
+  }
+}
+const Engine = function(canvasWidth: number, canvasHeight: number) {
   this.players = {}
   this.bullets = []
   this.entities = this.setupEntities()
@@ -48,17 +78,6 @@ Engine.prototype.setupEvents = function() {
   this.eventEmitter.on(ENGINE_IN.ITEM_PICKED_UP, data => this.itemPickedUp(data))
   this.eventEmitter.on(ENGINE_IN.PLAYER_TAKE_DAMAGE, data => this.playerTakeDamage(data))
   this.eventEmitter.on(ENGINE_IN.PLAYER_HAS_DIED, data => this.playerDeath(data))
-}
-
-Engine.prototype.setupEntities = function() {
-  return new MapItems(mapItemsData, {
-    22: MapItemFactory.weapon['assault'],
-    33: MapItemFactory.weapon['shotgun'],
-    44: MapItemFactory.item['health'],
-    55: MapItemFactory.item['overshield'],
-    66: MapItemFactory.item['speedBoost'],
-    77: MapItemFactory.item['cloak'],
-  })
 }
 
 Engine.prototype.addNewPlayer = function(socketID) {

@@ -6,7 +6,7 @@ class Game {
   name: gameName
   players: { [string]: SocketIO$Socket }
   io: SocketIO$Server
-  serverEngine: any
+  serverEngine: Engine
   maxPlayers: 4
 
   constructor(gameName: gameName, height: number, width: number, io: SocketIO$Server) {
@@ -18,7 +18,7 @@ class Game {
   }
 
   setupListeners(): void {
-    // let what: EventEmitter = this.serverEngine.eventEmitter
+    let engine: string = this.serverEngine.eventEmitter
   }
 
   playerCount(): number {

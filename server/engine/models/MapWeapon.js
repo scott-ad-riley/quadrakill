@@ -1,19 +1,43 @@
-var MapWeapon = function (x, y, weaponNum, reloadDelay, bulletCount, damage) {
-  this.x = x;
-  this.y = y;
-  this.weaponNum = weaponNum;
-  this.reloadDelay = reloadDelay;
-  this.bulletCount = bulletCount;
-  this.damage = damage;
-  this.isWeapon = true;
-  this.active = true;
-  this.id = null;
-}
-
-MapWeapon.prototype = {
-  restock: function () {
-    setTimeout(() => {this.active = true}, 10000);
+export class MapItem {
+  x: number
+  y: number
+  constructor(x: number, y: number): void {
+    this.x = x
+    this.y = y
   }
 }
 
-module.exports = MapWeapon;
+class MapWeapon extends MapItem {
+  weaponNum: number
+  reloadDelay: number
+  bulletCount: number
+  damage: number
+  active: boolean
+  id: any
+  constructor(
+    x: number,
+    y: number,
+    weaponNum: number,
+    reloadDelay: number,
+    bulletCount: number,
+    damage: number,
+  ) {
+    super(x, y)
+    this.weaponNum = weaponNum
+    this.reloadDelay = reloadDelay
+    this.bulletCount = bulletCount
+    this.damage = damage
+    // this.isWeapon = true
+    this.active = true
+    this.id = null
+  }
+
+  static respawnTimer: number = 10000
+  restock() {
+    setTimeout(() => {
+      this.active = true
+    }, MapWeapon.respawnTimer)
+  }
+}
+
+export default MapWeapon

@@ -21,7 +21,7 @@ class GamesList {
   }
 
   disconnectClientFromAllGames(socketId: string) {
-    this.forEach(game => game.disconnectClient(socketId))
+    this.forEach((game: Game): void => game.disconnectClient(socketId))
   }
 
   disconnectClientFromGame(gameName: string, socketId: string): void {
